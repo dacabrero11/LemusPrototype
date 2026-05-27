@@ -1448,8 +1448,8 @@ footer {
       <button class="chat-x" onclick="toggleChat()">×</button>
     </div>
     <div class="chat-msgs" id="chatMsgs">
-      <div class="msg bot"><div class="bubble">¡Hola! Soy el asistente de Lemus. Cuéntame sobre tu proyecto y te ayudo a cotizar los materiales. 🏗️</div></div>
-      <div class="msg bot"><div class="bubble">Por ejemplo: <em>"Quiero construir una pared de 20m²"</em> o <em>"Necesito pintar 3 cuartos"</em></div></div>
+      <div class="msg bot"><div class="bubble">¡Hola! Soy el asistente <strong>IA</strong> de Lemus. Cuéntame tu proyecto y te calculo materiales y presupuesto al instante. 🏗️</div></div>
+      <div class="msg bot"><div class="bubble">Puedo ayudarte con paredes, pisos, pintura, electricidad, plomería y más. ¿Qué vas a construir?</div></div>
     </div>
     <div class="chat-chips">
       <button class="chip" onclick="sendSuggestion('Quiero construir una pared de 20m²')">Construir pared</button>
@@ -1479,30 +1479,125 @@ function sendSuggestion(t) {
   document.getElementById('chatInput').value = t;
   sendMsg();
 }
-function sendMsg() {
+
+// ===== CLAUDE AI CHAT =====
+const SYSTEM_PROMPT = `Eres el asistente de cotizaciones de Lemus Ferretería, la ferretería más grande de El Salvador con más de 30 años de experiencia y 15+ sucursales. Tu nombre es "Asistente Lemus IA".
+
+Tu especialidad es ayudar a clientes a cotizar proyectos de construcción, remodelación y ferretería. 
+
+PRECIOS DE REFERENCIA EN EL SALVADOR (aproximados):
+- Bloque de concreto 20x40: $0.45 c/u
+- Cemento bolsa 42.5kg: $8.50
+- Arena m³: $70
+- Piedrín m³: $65
+- Hierro 3/8" varilla 6m: $5.90
+- Hierro 1/2" varilla 6m: $10.50
+- Pintura látex galón: $28
+- Impermeabilizante galón: $35
+- Cerámica 30x30 caja: $22
+- Adhesivo cerámica bolsa: $12
+- Cable eléctrico cal.12 (metro): $1.85
+- Tubo PVC 1/2" x 6m: $4.80
+- Taladro básico 650W: $89
+- Disco de corte 4.5": $3.50
+
+INSTRUCCIONES:
+1. Responde SIEMPRE en español, de forma amigable y directa
+2. Cuando el usuario describe un proyecto, calcula los materiales necesarios con cantidades y precios
+3. Muestra el desglose en formato de lista clara: material, cantidad, precio unitario, subtotal
+4. Siempre incluye un TOTAL ESTIMADO al final
+5. Agrega un 10-15% de margen por desperdicio/imprevistos
+6. Si faltan datos (medidas, área), pregunta específicamente qué necesitas saber
+7. Sé breve y práctico — máximo 150 palabras por respuesta
+8. Menciona que los precios pueden variar y recomienda visitar la sucursal más cercana para confirmar disponibilidad
+9. Si preguntan algo que no es ferretería/construcción, redirige amablemente al tema`;
+
+let chatHistory = [];
+
+async function sendMsg() {
   const inp = document.getElementById('chatInput');
   const text = inp.value.trim();
   if (!text) return;
+
+  // Get API key
+  let apiKey = sessionStorage.getItem('lemus_api_key');
+  if (!apiKey) {
+    apiKey = prompt('Ingresa tu API key de Anthropic para activar el asistente IA:');
+    if (!apiKey) return;
+    sessionStorage.setItem('lemus_api_key', apiKey.trim());
+  }
+
   const msgs = document.getElementById('chatMsgs');
-  msgs.innerHTML += `<div class="msg user"><div class="bubble">${text}</div></div>`;
+
+  // Add user message
+  msgs.innerHTML += `<div class="msg user"><div class="bubble">${text.replace(/</g,'&lt;')}</div></div>`;
   inp.value = '';
-  msgs.innerHTML += `<div class="msg bot" id="typing"><div class="bubble"><div class="typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div></div>`;
+  inp.disabled = true;
+
+  // Add typing indicator
+  const typingId = 'typing_' + Date.now();
+  msgs.innerHTML += `<div class="msg bot" id="${typingId}"><div class="bubble"><div class="typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div></div>`;
   msgs.scrollTop = msgs.scrollHeight;
-  const responses = {
-    'pared': 'Para una pared de 20m² necesitarás:\n\n• Bloques de concreto: ~180 unidades ($0.45 c/u) = $81\n• Cemento: 3 bolsas ($8.50 c/u) = $25.50\n• Arena: 0.5 m³ = $35\n• Repello y acabado: $45\n\n**Total estimado: ~$186.50**\n\n¿Quieres que agregue estos productos al carrito?',
-    'pint': 'Para pintar 3 cuartos (aprox. 120m²):\n\n• Pintura látex 4 galones ($28 c/u) = $112\n• Rodillo + bandeja: $12\n• Sellador/fondo: $18\n• Cinta de enmascarar: $8\n\n**Total estimado: ~$150**\n\n¿Los cuartos son de primera mano o repinte?',
-    'cer': 'Para cerámica en cocina (~15m²):\n\n• Cerámica 30×30: 18 cajas ($22 c/u) = $396\n• Adhesivo: 4 bolsas ($12 c/u) = $48\n• Fragua: 2 bolsas ($8 c/u) = $16\n\n**Total estimado: ~$465**\n\n¿Qué estilo buscas: moderna, rústica o clásica?'
-  };
-  setTimeout(() => {
-    document.getElementById('typing')?.remove();
-    const t = text.toLowerCase();
-    let reply = 'Entendido. Para darte una cotización precisa, ¿podrías darme las medidas del área o el tipo de material que prefieres?';
-    if (t.includes('pared') || t.includes('bloque')) reply = responses['pared'];
-    else if (t.includes('pint') || t.includes('cuart')) reply = responses['pint'];
-    else if (t.includes('cer') || t.includes('cocin') || t.includes('piso')) reply = responses['cer'];
-    msgs.innerHTML += `<div class="msg bot"><div class="bubble" style="white-space:pre-line">${reply}</div></div>`;
+
+  // Add to history
+  chatHistory.push({ role: 'user', content: text });
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey.trim(),
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 600,
+        system: SYSTEM_PROMPT,
+        messages: chatHistory
+      })
+    });
+
+    const data = await res.json();
+
+    if (data.error) {
+      document.getElementById(typingId)?.remove();
+      let errMsg = '⚠️ API key inválida. Recarga la página e intenta de nuevo.';
+      if (data.error.type === 'authentication_error') {
+        sessionStorage.removeItem('lemus_api_key');
+        errMsg = '⚠️ API key inválida. Recarga la página e ingresa tu key correctamente.';
+      }
+      msgs.innerHTML += `<div class="msg bot"><div class="bubble" style="color:#dc2626">${errMsg}</div></div>`;
+      msgs.scrollTop = msgs.scrollHeight;
+      inp.disabled = false;
+      return;
+    }
+
+    const reply = data.content?.[0]?.text || 'No pude procesar tu mensaje. Intenta de nuevo.';
+    chatHistory.push({ role: 'assistant', content: reply });
+
+    document.getElementById(typingId)?.remove();
+    // Render with basic markdown: **bold**, bullet points, line breaks
+    const formatted = reply
+      .replace(/</g, '&lt;')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\n/g, '<br>');
+    msgs.innerHTML += `<div class="msg bot"><div class="bubble">${formatted}</div></div>`;
     msgs.scrollTop = msgs.scrollHeight;
-  }, 1400);
+
+  } catch(err) {
+    document.getElementById(typingId)?.remove();
+    const isCors = err.message?.includes('fetch') || err.name === 'TypeError';
+    const errMsg = isCors
+      ? '⚠️ Error de conexión. Si estás abriendo el archivo directo (file://), usa <strong>Live Server</strong> en VS Code o <code>npx serve .</code> en la carpeta del proyecto.'
+      : '⚠️ Error de conexión. Verifica tu internet e intenta de nuevo.';
+    msgs.innerHTML += `<div class="msg bot"><div class="bubble" style="color:#dc2626">${errMsg}</div></div>`;
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  inp.disabled = false;
+  inp.focus();
 }
 
 // ===== CART BADGE =====
