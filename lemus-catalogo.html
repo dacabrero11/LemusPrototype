@@ -247,13 +247,24 @@ nav {
 
 .prod-img {
   aspect-ratio: 1;
-  background: var(--cream);
+  background: linear-gradient(135deg, #1A3F7A 0%, #0D2C5E 100%);
   display: flex; align-items: center; justify-content: center;
   font-size: 48px;
   border-bottom: 1px solid rgba(0,0,0,.05);
   overflow: hidden;
   transition: transform .3s var(--ease);
   position: relative;
+}
+.prod-img::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,.06) 1px, transparent 1px);
+  background-size: 18px 18px;
+  pointer-events: none;
+}
+.prod-img > span, .prod-img > div {
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,.25));
+  position: relative; z-index: 1;
 }
 .prod-card:hover .prod-img { transform: scale(1.04); }
 .prod-badge {
