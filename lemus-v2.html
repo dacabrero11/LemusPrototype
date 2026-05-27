@@ -1290,9 +1290,38 @@ footer {
 .search-item-price { margin-left: auto; font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: var(--orange); flex-shrink: 0; }
 .search-footer { padding: 10px 16px; border-top: 1px solid rgba(13,44,94,.06); background: rgba(13,44,94,.02); cursor: pointer; }
 .search-footer-text { font-size: 12px; color: var(--blue); font-family: 'Inter', sans-serif; font-weight: 500; }
+/* ===== LOADING SCREEN ===== */
+#loadScreen {
+  position: fixed; inset: 0; z-index: 9000;
+  background: #0D2C5E;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  transition: opacity .5s var(--ease), transform .5s var(--ease);
+}
+#loadScreen.hide { opacity: 0; pointer-events: none; transform: translateY(-8px); }
+#loadCanvas { display: block; }
+.load-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: 20px;
+}
+
+/* ===== NAVBAR CRANE ===== */
+.nav-crane-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#navCrane {
+  display: block;
+  flex-shrink: 0;
+}
 
 </style>
-</head>
 <body>
 
 <!-- ANIMATED BG -->
@@ -1301,6 +1330,12 @@ footer {
   <div class="bg-orb bg-orb-1"></div>
   <div class="bg-orb bg-orb-2"></div>
   <div class="bg-orb bg-orb-3"></div>
+</div>
+
+<!-- LOADING SCREEN -->
+<div id="loadScreen">
+  <canvas id="loadCanvas" width="340" height="220"></canvas>
+  <div class="load-sub">construyendo tu experiencia...</div>
 </div>
 
 <!-- TOPBAR -->
@@ -1319,10 +1354,13 @@ footer {
 
 <!-- NAVBAR -->
 <nav>
-  <a href="#" class="logo-mark">
-    <div class="l-text">lem<em>u</em>s</div>
-    <span class="l-tag">Más que construcción</span>
-  </a>
+  <div class="nav-crane-wrap">
+    <canvas id="navCrane" width="48" height="48"></canvas>
+    <a href="#" class="logo-mark">
+      <div class="l-text">lem<em>u</em>s</div>
+      <span class="l-tag">Más que construcción</span>
+    </a>
+  </div>
 
   <div class="nav-pills">
     <a href="lemus-v2.html" class="nav-pill active">Inicio</a>
@@ -1757,6 +1795,166 @@ document.addEventListener('click', e => {
     document.getElementById('searchPill').classList.remove('expanded');
   }
 });
+
+// ===== LOADING SCREEN =====
+(function() {
+  const screen = document.getElementById('loadScreen');
+  const canvas = document.getElementById('loadCanvas');
+  if (!screen || !canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = 340, H = 220;
+  const letters = ['l','e','m','u','s'];
+  const blocks = []; // placed blocks
+  let t = 0;
+  let phase = 'dropping'; // dropping | placed | done
+  let currentLetter = 0;
+  let cableY = 0;
+  let raf;
+
+  // Block positions
+  const blockW = 44, blockH = 32;
+  const startX = 60;
+  const groundY = 170;
+  const blockTargets = letters.map((_, i) => ({ x: startX + i * (blockW + 6), y: groundY - blockH }));
+
+  function drawCrane(armX) {
+    // Tower
+    ctx.fillStyle = 'rgba(255,255,255,0.9)';
+    ctx.fillRect(armX + 10, 20, 10, H - 20);
+    // Arm
+    ctx.fillStyle = 'rgba(255,255,255,0.9)';
+    ctx.fillRect(startX - 10, 18, armX - startX + 20, 8);
+    // Counter arm + weight
+    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    ctx.fillRect(armX + 20, 18, 50, 8);
+    ctx.fillStyle = '#E8500A';
+    ctx.fillRect(armX + 52, 10, 26, 18);
+    // Stripes on tower
+    for (let i = 0; i < 5; i++) {
+      ctx.fillStyle = i % 2 === 0 ? '#E8500A' : 'rgba(255,255,255,0.0)';
+      ctx.fillRect(armX + 10, 30 + i * 28, 10, 14);
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    const armX = 260;
+    const target = blockTargets[currentLetter];
+
+    drawCrane(armX);
+
+    // Draw placed blocks
+    blocks.forEach(b => {
+      ctx.fillStyle = '#1A3F7A';
+      ctx.fillRect(b.x, b.y, blockW, blockH);
+      ctx.fillStyle = 'white';
+      ctx.font = `bold 22px 'Syne', sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.fillText(b.letter, b.x + blockW / 2, b.y + blockH - 7);
+    });
+
+    if (phase === 'dropping' && currentLetter < 5) {
+      // Animate crane arm moving to target X
+      const pickX = target.x + blockW / 2;
+
+      // Cable
+      ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(pickX, 26);
+      ctx.lineTo(pickX, 26 + cableY);
+      ctx.stroke();
+
+      // Falling block
+      const blockScreenY = 26 + cableY - blockH;
+      ctx.fillStyle = '#E8500A';
+      ctx.fillRect(pickX - blockW / 2, blockScreenY, blockW, blockH);
+      ctx.fillStyle = 'white';
+      ctx.font = `bold 22px 'Syne', sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.fillText(letters[currentLetter], pickX, blockScreenY + blockH - 7);
+
+      cableY += 2.2;
+
+      // When block reaches ground
+      if (blockScreenY >= target.y) {
+        blocks.push({ x: target.x, y: target.y, letter: letters[currentLetter] });
+        currentLetter++;
+        cableY = 0;
+        if (currentLetter >= 5) {
+          phase = 'done';
+          setTimeout(() => {
+            cancelAnimationFrame(raf);
+            screen.classList.add('hide');
+            setTimeout(() => screen.remove(), 600);
+          }, 800);
+        }
+      }
+    }
+
+    // Ground line
+    ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(0, groundY + blockH + 2); ctx.lineTo(W, groundY + blockH + 2); ctx.stroke();
+
+    t++;
+    raf = requestAnimationFrame(draw);
+  }
+
+  draw();
+})();
+
+// ===== NAVBAR CRANE =====
+(function() {
+  const canvas = document.getElementById('navCrane');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = 48, H = 48;
+  let t = 0;
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Tower
+    ctx.fillStyle = '#0D2C5E';
+    ctx.fillRect(34, 10, 5, 38);
+
+    // Arm
+    ctx.fillStyle = '#0D2C5E';
+    ctx.fillRect(8, 9, 31, 4);
+
+    // Counter weight
+    ctx.fillStyle = '#E8500A';
+    ctx.fillRect(36, 5, 10, 7);
+
+    // Stripe on tower
+    ctx.fillStyle = '#E8500A';
+    ctx.fillRect(34, 10, 5, 7);
+
+    // Swinging cable
+    const swing = Math.sin(t * 0.04) * 8;
+    const cableLen = 18 + Math.sin(t * 0.025) * 6;
+    const hookX = 18 + swing;
+    const hookY = 13 + cableLen;
+
+    ctx.strokeStyle = 'rgba(13,44,94,0.4)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(18, 13);
+    ctx.lineTo(hookX, hookY);
+    ctx.stroke();
+
+    // Block
+    ctx.fillStyle = '#E8500A';
+    ctx.fillRect(hookX - 7, hookY, 14, 10);
+
+    t++;
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+})();
 
 // ===== CART BADGE =====
 (function() {
