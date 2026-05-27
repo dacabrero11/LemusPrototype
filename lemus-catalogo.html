@@ -635,7 +635,7 @@ footer { background: var(--blue); padding: 48px 2rem 24px; color: rgba(255,255,2
   <div class="nav-search-wrap" id="searchWrap">
     <div class="nav-search-pill" id="searchPill" onclick="focusSearch()">
       <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-      <input type="text" id="navSearchInput" placeholder="Buscar productos..." oninput="handleSearch(this.value)" onkeydown="handleSearchKey(event)" onfocus="expandSearch()" onblur="collapseSearch()">
+      <input type="text" id="navSearchInput" placeholder="Buscar productos..." oninput="handleSearch(this.value)" onkeydown="handleSearchKey(event)" onfocus="expandSearch()">
     </div>
     <div class="search-dropdown" id="searchDropdown"></div>
   </div>
@@ -1291,6 +1291,42 @@ function modalToggleFav() {
   if (modalFavs.has(currentProductId)) { modalFavs.delete(currentProductId); btn.classList.remove('faved'); }
   else { modalFavs.add(currentProductId); btn.classList.add('faved'); }
 }
+
+// ===== NAV SEARCH =====
+const QUICK_PRODUCTS = [
+  {id:1,  name:'Taladro percutor 650W',           cat:'Herramientas', emoji:'🔧', price:89.00},
+  {id:2,  name:'Esmeriladora angular 4½" 750W',   cat:'Herramientas', emoji:'⚙️', price:64.50},
+  {id:3,  name:'Sierra circular 7¼" 1400W',       cat:'Herramientas', emoji:'🪚', price:112.00},
+  {id:10, name:'Pintura látex interior blanco',   cat:'Pintura',      emoji:'🪣', price:28.00},
+  {id:11, name:'Impac impermeabilizante 3.78L',   cat:'Pintura',      emoji:'🎨', price:124.90},
+  {id:16, name:'Cable eléctrico THHN cal.12 AWG', cat:'Eléctrico',    emoji:'⚡', price:18.50},
+  {id:26, name:'Cemento Cessa 42.5 kg',           cat:'Construcción', emoji:'🏗️', price:8.50},
+  {id:27, name:'Bloque de concreto 20×40×20 cm',  cat:'Construcción', emoji:'🧱', price:0.45},
+  {id:33, name:'Tensor galvanizado 3/16"',         cat:'Fijaciones',   emoji:'🔩', price:0.75},
+  {id:38, name:'Tabla pino 1×6×8 pies',           cat:'Madera',       emoji:'🪵', price:9.50},
+];
+function focusSearch()  { document.getElementById('navSearchInput').focus(); }
+function expandSearch() { document.getElementById('searchPill').classList.add('expanded'); }
+function handleSearch(val) {
+  const drop = document.getElementById('searchDropdown');
+  if (!val.trim()) { drop.classList.remove('show'); return; }
+  const q = val.toLowerCase();
+  const results = QUICK_PRODUCTS.filter(p => p.name.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q)).slice(0,5);
+  if (!results.length) { drop.classList.remove('show'); return; }
+  drop.innerHTML = results.map(p => `<a class="search-item" href="${p.id===1?'lemus-producto.html':'lemus-catalogo.html?q='+encodeURIComponent(p.name)}"><span class="search-item-emoji">${p.emoji}</span><div><div class="search-item-name">${p.name}</div><div class="search-item-cat">${p.cat}</div></div><span class="search-item-price">$${p.price.toFixed(2)}</span></a>`).join('') +
+    `<div class="search-footer" onmousedown="goSearch('${val.replace(/'/g,"\\'")}')" style="cursor:pointer"><div class="search-footer-text">Ver todos los resultados de "<strong>${val}</strong>" →</div></div>`;
+  drop.classList.add('show');
+}
+function handleSearchKey(e) {
+  if (e.key==='Enter') { const v=document.getElementById('navSearchInput').value.trim(); if(v) goSearch(v); }
+  if (e.key==='Escape') { document.getElementById('searchDropdown').classList.remove('show'); document.getElementById('searchPill').classList.remove('expanded'); }
+}
+function goSearch(q) { window.location.href='lemus-catalogo.html?q='+encodeURIComponent(q); }
+document.addEventListener('click', e => {
+  const w=document.getElementById('searchWrap');
+  if(w && !w.contains(e.target)) { document.getElementById('searchDropdown').classList.remove('show'); document.getElementById('searchPill').classList.remove('expanded'); }
+});
+
 </script>
 </body>
 </html>
