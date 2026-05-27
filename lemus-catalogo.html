@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catálogo — Lemus Más que Construcción</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --blue: #0D2C5E; --blue-mid: #1A3F7A; --blue-light: #2756A8;
+  --orange: #E8500A; --orange-light: #FF6B2B;
+  --cream: #F4F1EB; --cream-dark: #EAE6DE;
+  --white: #fff; --gray: #8A8A8A; --gray-light: #E8E4DC;
+  --text: #111; --text-muted: #666;
+  --ease: cubic-bezier(.4,0,.2,1);
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+/* ===== TOPBAR ===== */
+.topbar { background: var(--blue); padding: 7px 2rem; display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
+.topbar-left { color: rgba(255,255,255,.5); display: flex; align-items: center; gap: 5px; }
+.topbar-left strong { color: var(--orange-light); font-weight: 500; }
+.topbar-right { display: flex; gap: 20px; }
+.topbar-right a { color: rgba(255,255,255,.45); text-decoration: none; transition: color .2s; }
+.topbar-right a:hover { color: rgba(255,255,255,.85); }
+
+/* ===== NAV ===== */
+nav {
+  background: rgba(244,241,235,.95);
+  backdrop-filter: blur(20px);
+  padding: 0 2rem;
+  height: 68px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid rgba(13,44,94,.07);
+  position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 2px 20px rgba(13,44,94,.06);
+}
+.logo-mark { display: flex; align-items: baseline; gap: 2px; text-decoration: none; }
+.l-text { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; color: var(--blue); letter-spacing: -1.5px; line-height: 1; }
+.l-text em { font-style: normal; color: var(--orange); }
+.l-tag { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); margin-left: 4px; font-family: 'DM Sans', sans-serif; align-self: flex-end; margin-bottom: 3px; }
+.nav-pills { display: flex; gap: 4px; background: rgba(13,44,94,.06); padding: 4px; border-radius: 40px; }
+.nav-pill { font-size: 12.5px; font-weight: 500; font-family: 'DM Sans', sans-serif; color: var(--text-muted); text-decoration: none; padding: 7px 16px; border-radius: 30px; transition: all .2s var(--ease); white-space: nowrap; }
+.nav-pill:hover { color: var(--blue); background: rgba(13,44,94,.06); }
+.nav-pill.active { background: var(--blue); color: white; box-shadow: 0 2px 12px rgba(13,44,94,.25); }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.nav-search-pill { display: flex; align-items: center; gap: 8px; background: rgba(13,44,94,.06); border: none; border-radius: 30px; padding: 8px 16px; font-size: 13px; font-family: 'DM Sans', sans-serif; color: var(--text-muted); cursor: pointer; transition: background .2s; }
+.nav-search-pill:hover { background: rgba(13,44,94,.1); }
+.nav-search-pill svg { width: 15px; height: 15px; fill: var(--gray); }
+.nav-cart { display: flex; align-items: center; gap: 8px; background: var(--blue); color: white; border: none; padding: 8px 18px; border-radius: 30px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all .2s var(--ease); }
+.nav-cart:hover { background: var(--blue-light); transform: translateY(-1px); }
+.cart-dot { width: 18px; height: 18px; background: var(--orange); border-radius: 50%; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+
+/* ===== PAGE HEADER ===== */
+.page-header {
+  background: var(--blue);
+  padding: 40px 2rem 36px;
+  position: relative;
+  overflow: hidden;
+}
+.page-header::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px), linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size: 40px 40px;
+  animation: gridMove 25s linear infinite;
+}
+@keyframes gridMove { to { background-position: 40px 40px; } }
+.page-header::after {
+  content: '';
+  position: absolute; width: 500px; height: 500px; border-radius: 50%;
+  background: conic-gradient(from 0deg,rgba(232,80,10,.07) 0deg 90deg,transparent 90deg 360deg);
+  right: -100px; top: -200px;
+  animation: spin 50s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.page-header-inner { position: relative; z-index: 2; display: flex; align-items: flex-end; justify-content: space-between; }
+.ph-left .breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 11px; color: rgba(255,255,255,.4); margin-bottom: 14px; font-family: 'DM Sans', sans-serif; }
+.ph-left .breadcrumb a { color: rgba(255,255,255,.4); text-decoration: none; transition: color .2s; }
+.ph-left .breadcrumb a:hover { color: rgba(255,255,255,.75); }
+.ph-left .breadcrumb span { color: var(--orange-light); }
+.ph-title { font-family: 'Syne', sans-serif; font-size: clamp(32px,4vw,52px); font-weight: 800; color: white; letter-spacing: -2px; line-height: 1; }
+.ph-title em { font-style: normal; color: var(--orange); }
+.ph-sub { color: rgba(255,255,255,.5); font-size: 14px; margin-top: 8px; font-family: 'DM Sans', sans-serif; }
+.ph-right { display: flex; align-items: center; gap: 24px; }
+.ph-stat { text-align: right; }
+.ph-stat-num { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; color: white; line-height: 1; }
+.ph-stat-num span { color: var(--orange); }
+.ph-stat-label { font-size: 10px; color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: 1.5px; font-family: 'DM Sans', sans-serif; margin-top: 2px; }
+.ph-divider { width: 1px; height: 40px; background: rgba(255,255,255,.1); }
+
+/* ===== SEARCH BAR ===== */
+.search-strip {
+  background: white;
+  border-bottom: 1px solid rgba(13,44,94,.06);
+  padding: 14px 2rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: sticky;
+  top: 68px;
+  z-index: 100;
+}
+.strip-search {
+  flex: 1;
+  max-width: 520px;
+  position: relative;
+}
+.strip-search input {
+  width: 100%;
+  padding: 10px 44px 10px 16px;
+  border: 1.5px solid rgba(13,44,94,.12);
+  border-radius: 10px;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+  background: var(--cream);
+  color: var(--text);
+  transition: border-color .2s, background .2s;
+}
+.strip-search input:focus { border-color: var(--blue-light); background: white; }
+.strip-search input::placeholder { color: var(--gray); }
+.strip-search-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; fill: var(--gray); pointer-events: none; }
+.strip-sort { display: flex; align-items: center; gap: 8px; }
+.strip-sort label { font-size: 12px; color: var(--gray); font-family: 'DM Sans', sans-serif; white-space: nowrap; }
+.strip-sort select { border: 1.5px solid rgba(13,44,94,.12); border-radius: 8px; padding: 8px 12px; font-size: 13px; font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--cream); outline: none; cursor: pointer; transition: border-color .2s; }
+.strip-sort select:focus { border-color: var(--blue-light); }
+.strip-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.result-count { font-size: 12px; color: var(--gray); font-family: 'DM Sans', sans-serif; white-space: nowrap; }
+.result-count strong { color: var(--blue); font-weight: 600; }
+.view-toggle { display: flex; gap: 2px; background: var(--cream); border-radius: 8px; padding: 3px; }
+.vt-btn { width: 32px; height: 32px; border: none; border-radius: 6px; cursor: pointer; background: transparent; display: flex; align-items: center; justify-content: center; transition: all .15s; }
+.vt-btn.active { background: white; box-shadow: 0 1px 6px rgba(13,44,94,.1); }
+.vt-btn svg { width: 16px; height: 16px; fill: var(--gray); }
+.vt-btn.active svg { fill: var(--blue); }
+
+/* ===== MAIN LAYOUT ===== */
+.catalog-layout {
+  display: grid;
+  grid-template-columns: 268px 1fr;
+  gap: 0;
+  min-height: 80vh;
+  align-items: start;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  padding: 28px 20px 40px;
+  border-right: 1px solid rgba(13,44,94,.07);
+  position: sticky;
+  top: 116px;
+  max-height: calc(100vh - 116px);
+  overflow-y: auto;
+  background: white;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gray-light) transparent;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--gray-light); border-radius: 4px; }
+
+.sb-section { margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid rgba(13,44,94,.06); }
+.sb-section:last-child { border-bottom: none; margin-bottom: 0; }
+.sb-title { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+.sb-clear { font-size: 10px; color: var(--orange); text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 500; }
+.sb-clear:hover { text-decoration: underline; }
+
+/* Category checkboxes */
+.cat-list { display: flex; flex-direction: column; gap: 6px; }
+.cat-item-check { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; border-radius: 8px; cursor: pointer; transition: background .15s; }
+.cat-item-check:hover { background: rgba(13,44,94,.04); }
+.cat-item-check.active { background: rgba(13,44,94,.07); }
+.cat-check-left { display: flex; align-items: center; gap: 10px; }
+.cat-check-box {
+  width: 16px; height: 16px;
+  border: 1.5px solid rgba(13,44,94,.2);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+  flex-shrink: 0;
+}
+.cat-check-box.checked { background: var(--blue); border-color: var(--blue); }
+.cat-check-box.checked::after { content: ''; width: 4px; height: 7px; border: 2px solid white; border-top: none; border-left: none; transform: rotate(45deg) translateY(-1px); display: block; }
+.cat-emoji-sm { font-size: 16px; }
+.cat-check-name { font-size: 13px; color: var(--text); font-family: 'DM Sans', sans-serif; }
+.cat-count { font-size: 11px; color: var(--gray); background: var(--cream); padding: 2px 7px; border-radius: 20px; font-family: 'DM Sans', sans-serif; }
+
+/* Price range */
+.price-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.price-input-wrap { position: relative; }
+.price-input-wrap span { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--gray); font-family: 'DM Sans', sans-serif; }
+.price-input-wrap input { width: 100%; padding: 8px 8px 8px 20px; border: 1.5px solid rgba(13,44,94,.12); border-radius: 8px; font-size: 13px; font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--cream); outline: none; transition: border-color .2s; }
+.price-input-wrap input:focus { border-color: var(--blue-light); background: white; }
+.price-slider { width: 100%; accent-color: var(--blue); }
+
+/* Stock filter */
+.sb-toggles { display: flex; flex-direction: column; gap: 8px; }
+.sb-toggle { display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 4px 0; }
+.sb-toggle-label { font-size: 13px; color: var(--text); font-family: 'DM Sans', sans-serif; }
+.toggle-track { width: 36px; height: 20px; background: var(--gray-light); border-radius: 10px; position: relative; transition: background .2s; flex-shrink: 0; }
+.toggle-track.on { background: var(--blue); }
+.toggle-thumb { width: 14px; height: 14px; background: white; border-radius: 50%; position: absolute; top: 3px; left: 3px; transition: transform .2s; box-shadow: 0 1px 4px rgba(0,0,0,.15); }
+.toggle-track.on .toggle-thumb { transform: translateX(16px); }
+
+/* Reset all */
+.reset-all { width: 100%; padding: 10px; border: 1.5px solid rgba(13,44,94,.12); border-radius: 8px; background: transparent; font-size: 12px; font-family: 'DM Sans', sans-serif; color: var(--text-muted); cursor: pointer; transition: all .2s; margin-top: 4px; }
+.reset-all:hover { border-color: var(--blue); color: var(--blue); }
+
+/* ===== PRODUCT GRID ===== */
+.products-area {
+  padding: 24px 24px 48px;
+  background: var(--cream);
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.products-grid.view-list {
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+/* CARD — GRID VIEW */
+.prod-card {
+  background: white;
+  border-radius: 14px;
+  border: 1.5px solid rgba(13,44,94,.06);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all .25s var(--ease);
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: cardIn .4s var(--ease) forwards;
+}
+@keyframes cardIn { to { opacity: 1; transform: translateY(0); } }
+.prod-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(13,44,94,.1); border-color: rgba(13,44,94,.14); }
+.prod-card.hidden { display: none; }
+
+.prod-img {
+  aspect-ratio: 1;
+  background: var(--cream);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 48px;
+  border-bottom: 1px solid rgba(0,0,0,.05);
+  overflow: hidden;
+  transition: transform .3s var(--ease);
+  position: relative;
+}
+.prod-card:hover .prod-img { transform: scale(1.04); }
+.prod-badge {
+  position: absolute;
+  top: 10px; left: 10px;
+  font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px;
+  padding: 3px 8px; border-radius: 20px;
+  font-family: 'DM Sans', sans-serif;
+}
+.badge-new { background: var(--blue); color: white; }
+.badge-offer { background: var(--orange); color: white; }
+.badge-top { background: #16a34a; color: white; }
+.prod-fav {
+  position: absolute; top: 10px; right: 10px;
+  width: 28px; height: 28px; background: white; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,.1);
+  opacity: 0; transition: opacity .2s;
+  cursor: pointer; border: none;
+}
+.prod-card:hover .prod-fav { opacity: 1; }
+.prod-fav svg { width: 14px; height: 14px; fill: none; stroke: var(--gray); stroke-width: 1.5; transition: all .15s; }
+.prod-fav.active svg { fill: var(--orange); stroke: var(--orange); }
+.prod-fav:hover svg { stroke: var(--orange); }
+
+.prod-body { padding: 14px 16px 10px; flex: 1; }
+.prod-cat-label { font-size: 10px; color: var(--orange); text-transform: uppercase; letter-spacing: .8px; font-weight: 600; font-family: 'DM Sans', sans-serif; margin-bottom: 4px; }
+.prod-name { font-size: 13px; font-weight: 500; color: var(--text); font-family: 'DM Sans', sans-serif; line-height: 1.4; margin-bottom: 6px; }
+.prod-sku { font-size: 10px; color: var(--gray); font-family: 'DM Sans', sans-serif; }
+.prod-price-row { display: flex; align-items: flex-end; gap: 6px; margin-top: 10px; }
+.prod-price { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; color: var(--orange); line-height: 1; }
+.prod-price sup { font-size: 12px; vertical-align: super; }
+.prod-price-orig { font-size: 12px; color: var(--gray); text-decoration: line-through; font-family: 'DM Sans', sans-serif; align-self: flex-end; margin-bottom: 2px; }
+
+.prod-foot { padding: 0 16px 14px; display: flex; align-items: center; justify-content: space-between; }
+.prod-stock { font-size: 10px; padding: 3px 8px; border-radius: 20px; font-weight: 500; font-family: 'DM Sans', sans-serif; }
+.stock-in { background: rgba(34,197,94,.1); color: #16a34a; }
+.stock-low { background: rgba(234,179,8,.1); color: #a16207; }
+.stock-out { background: rgba(239,68,68,.1); color: #dc2626; }
+.add-cart {
+  background: var(--blue); color: white; border: none;
+  padding: 7px 14px; border-radius: 20px;
+  font-size: 11px; font-weight: 600; cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all .2s var(--ease);
+  display: flex; align-items: center; gap: 5px;
+}
+.add-cart:hover { background: var(--blue-light); transform: translateY(-1px); }
+.add-cart svg { width: 12px; height: 12px; fill: white; }
+.add-cart.out { background: var(--gray-light); color: var(--gray); cursor: not-allowed; }
+.add-cart.out:hover { transform: none; background: var(--gray-light); }
+
+/* CARD — LIST VIEW */
+.view-list .prod-card {
+  flex-direction: row;
+  height: 110px;
+}
+.view-list .prod-img {
+  width: 110px; min-width: 110px;
+  aspect-ratio: unset;
+  height: 100%;
+  border-bottom: none;
+  border-right: 1px solid rgba(0,0,0,.05);
+  font-size: 40px;
+}
+.view-list .prod-body { padding: 14px 16px; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.view-list .prod-foot { padding: 0 16px; flex-direction: column; align-items: flex-end; gap: 8px; justify-content: center; min-width: 120px; }
+.view-list .prod-price { font-size: 20px; }
+.view-list .prod-fav { opacity: 0; }
+.view-list .prod-card:hover .prod-fav { opacity: 1; }
+
+/* Empty state */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 80px 20px;
+}
+.empty-icon { font-size: 56px; margin-bottom: 16px; }
+.empty-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; color: var(--blue); letter-spacing: -0.5px; margin-bottom: 8px; }
+.empty-sub { font-size: 14px; color: var(--gray); font-family: 'DM Sans', sans-serif; }
+.empty-reset { margin-top: 20px; background: var(--blue); color: white; border: none; padding: 10px 24px; border-radius: 30px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background .2s; }
+.empty-reset:hover { background: var(--blue-light); }
+
+/* Active filters chips */
+.active-filters {
+  display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+  margin-bottom: 20px;
+}
+.active-filters:empty { display: none; }
+.filter-chip {
+  display: flex; align-items: center; gap: 5px;
+  background: rgba(13,44,94,.08);
+  border: 1px solid rgba(13,44,94,.12);
+  color: var(--blue);
+  padding: 4px 10px 4px 12px;
+  border-radius: 20px;
+  font-size: 11px; font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: all .15s;
+}
+.filter-chip:hover { background: rgba(13,44,94,.14); }
+.filter-chip span { font-size: 13px; line-height: 1; color: var(--gray); transition: color .15s; }
+.filter-chip:hover span { color: var(--blue); }
+.clear-all-chip {
+  font-size: 11px; color: var(--orange); font-family: 'DM Sans', sans-serif;
+  font-weight: 500; cursor: pointer; padding: 4px 8px;
+  transition: opacity .15s;
+}
+.clear-all-chip:hover { opacity: .7; }
+
+/* Pagination */
+.pagination { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 40px; }
+.pg-btn { width: 36px; height: 36px; border-radius: 8px; border: 1.5px solid rgba(13,44,94,.12); background: white; color: var(--text-muted); font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .15s; }
+.pg-btn:hover { border-color: var(--blue); color: var(--blue); }
+.pg-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
+.pg-btn.arrow svg { width: 14px; height: 14px; fill: currentColor; }
+
+/* Footer */
+footer { background: var(--blue); padding: 48px 2rem 24px; color: rgba(255,255,255,.6); margin-top: 0; }
+.footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,.08); margin-bottom: 20px; }
+.footer-logo { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: white; letter-spacing: -1px; }
+.footer-logo em { font-style: normal; color: var(--orange); }
+.footer-tagline { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,.3); margin: 6px 0 14px; font-family: 'DM Sans', sans-serif; }
+.footer-about { font-size: 13px; line-height: 1.7; color: rgba(255,255,255,.4); font-family: 'DM Sans', sans-serif; max-width: 240px; }
+.footer-col-title { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.footer-links a { color: rgba(255,255,255,.4); text-decoration: none; font-size: 13px; font-family: 'DM Sans', sans-serif; transition: color .2s; }
+.footer-links a:hover { color: white; }
+.footer-bottom { display: flex; justify-content: space-between; font-size: 11px; color: rgba(255,255,255,.25); font-family: 'DM Sans', sans-serif; }
+
+/* ===== PRODUCT MODAL ===== */
+.modal-backdrop {
+  position: fixed; inset: 0; z-index: 900;
+  background: rgba(10,20,40,0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s var(--ease);
+}
+.modal-backdrop.open { opacity: 1; pointer-events: all; }
+
+.modal {
+  background: white;
+  border-radius: 20px;
+  width: 100%; max-width: 860px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  box-shadow: 0 32px 80px rgba(10,20,40,0.25), 0 0 0 1px rgba(13,44,94,0.06);
+  transform: translateY(24px) scale(0.97);
+  transition: transform .3s var(--ease);
+  position: relative;
+}
+.modal-backdrop.open .modal { transform: translateY(0) scale(1); }
+
+/* Close button */
+.modal-close {
+  position: absolute; top: 16px; right: 16px;
+  width: 36px; height: 36px;
+  background: rgba(13,44,94,0.07); border: none; border-radius: 50%;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  z-index: 10; transition: background .15s;
+}
+.modal-close:hover { background: rgba(13,44,94,0.14); }
+.modal-close svg { width: 16px; height: 16px; fill: var(--text-muted); }
+
+/* Nav arrows */
+.modal-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 36px; height: 36px;
+  background: white; border: 1.5px solid rgba(13,44,94,0.1); border-radius: 50%;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  z-index: 10; transition: all .15s; box-shadow: 0 4px 12px rgba(13,44,94,0.1);
+}
+.modal-nav:hover { border-color: var(--blue); box-shadow: 0 4px 16px rgba(13,44,94,0.18); }
+.modal-nav svg { width: 14px; height: 14px; fill: var(--blue); }
+.modal-prev { left: -18px; }
+.modal-next { right: -18px; }
+
+/* Left — image panel */
+.modal-img-panel {
+  background: var(--cream);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 48px 32px 32px;
+  position: relative;
+  min-height: 460px;
+  overflow: hidden;
+}
+.modal-img-panel::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(13,44,94,0.06) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.modal-emoji {
+  font-size: 120px;
+  filter: drop-shadow(0 16px 32px rgba(13,44,94,0.15));
+  animation: modalFloat 5s ease-in-out infinite;
+  position: relative; z-index: 1;
+}
+@keyframes modalFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+.modal-badge-wrap {
+  position: absolute; top: 20px; left: 20px;
+  display: flex; gap: 6px; z-index: 2;
+}
+.modal-thumb-strip {
+  display: flex; gap: 8px; margin-top: 24px; position: relative; z-index: 1;
+}
+.modal-thumb {
+  width: 52px; height: 52px;
+  background: white; border-radius: 10px;
+  border: 2px solid transparent;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; cursor: pointer;
+  transition: border-color .15s;
+  box-shadow: 0 2px 8px rgba(13,44,94,0.08);
+}
+.modal-thumb.active { border-color: var(--blue); }
+.modal-thumb:hover { border-color: rgba(13,44,94,0.3); }
+
+/* Right — info panel */
+.modal-info {
+  padding: 36px 36px 32px;
+  overflow-y: auto;
+  display: flex; flex-direction: column;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gray-light) transparent;
+}
+.modal-info::-webkit-scrollbar { width: 4px; }
+.modal-info::-webkit-scrollbar-thumb { background: var(--gray-light); border-radius: 4px; }
+
+.modal-cat { font-size: 10px; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: 1.5px; font-family: 'DM Sans', sans-serif; margin-bottom: 8px; }
+.modal-name { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: var(--blue); letter-spacing: -0.5px; line-height: 1.15; margin-bottom: 6px; }
+.modal-sku { font-size: 11px; color: var(--gray); font-family: 'DM Sans', sans-serif; margin-bottom: 20px; }
+
+.modal-price-block { display: flex; align-items: flex-end; gap: 10px; margin-bottom: 20px; }
+.modal-price { font-family: 'Syne', sans-serif; font-size: 38px; font-weight: 800; color: var(--orange); line-height: 1; }
+.modal-price sup { font-size: 18px; vertical-align: super; }
+.modal-price-orig { font-size: 16px; color: var(--gray); text-decoration: line-through; font-family: 'DM Sans', sans-serif; margin-bottom: 6px; }
+.modal-discount { background: rgba(232,80,10,0.1); color: var(--orange); font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 6px; font-family: 'DM Sans', sans-serif; margin-bottom: 6px; }
+
+.modal-stock-row { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid rgba(13,44,94,0.07); }
+.modal-stock-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.modal-stock-text { font-size: 13px; font-family: 'DM Sans', sans-serif; font-weight: 500; }
+
+/* Quantity selector */
+.modal-qty-row { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+.modal-qty-label { font-size: 12px; color: var(--gray); font-family: 'DM Sans', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; }
+.qty-control { display: flex; align-items: center; gap: 0; border: 1.5px solid rgba(13,44,94,0.12); border-radius: 10px; overflow: hidden; }
+.qty-btn { width: 36px; height: 36px; background: var(--cream); border: none; cursor: pointer; font-size: 18px; color: var(--blue); font-family: 'DM Sans', sans-serif; transition: background .15s; display: flex; align-items: center; justify-content: center; font-weight: 300; }
+.qty-btn:hover { background: var(--cream-dark); }
+.qty-num { width: 44px; height: 36px; text-align: center; border: none; border-left: 1.5px solid rgba(13,44,94,0.12); border-right: 1.5px solid rgba(13,44,94,0.12); font-size: 14px; font-weight: 600; font-family: 'DM Sans', sans-serif; color: var(--blue); background: white; outline: none; }
+
+/* CTA buttons */
+.modal-cta { display: flex; gap: 10px; margin-bottom: 24px; }
+.modal-btn-primary {
+  flex: 1; background: var(--blue); color: white; border: none;
+  padding: 14px 20px; border-radius: 12px;
+  font-size: 14px; font-weight: 600; font-family: 'DM Sans', sans-serif;
+  cursor: pointer; transition: all .2s var(--ease);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.modal-btn-primary:hover { background: var(--blue-light); transform: translateY(-1px); }
+.modal-btn-primary svg { width: 16px; height: 16px; fill: white; }
+.modal-btn-primary.added { background: #16a34a; }
+.modal-btn-secondary {
+  width: 48px; height: 48px; border: 1.5px solid rgba(13,44,94,0.12);
+  background: white; border-radius: 12px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s; flex-shrink: 0;
+}
+.modal-btn-secondary:hover { border-color: var(--orange); }
+.modal-btn-secondary svg { width: 18px; height: 18px; fill: none; stroke: var(--gray); stroke-width: 1.5; }
+.modal-btn-secondary.faved svg { fill: var(--orange); stroke: var(--orange); }
+
+/* Specs table */
+.modal-specs { margin-bottom: 0; }
+.specs-title { font-size: 11px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 1.5px; font-family: 'DM Sans', sans-serif; margin-bottom: 12px; }
+.specs-table { width: 100%; border-collapse: collapse; }
+.specs-table tr { border-bottom: 1px solid rgba(13,44,94,0.05); }
+.specs-table tr:last-child { border-bottom: none; }
+.specs-table td { padding: 8px 0; font-size: 12px; font-family: 'DM Sans', sans-serif; }
+.specs-table td:first-child { color: var(--gray); width: 45%; }
+.specs-table td:last-child { color: var(--text); font-weight: 500; }
+
+/* Related products strip */
+.modal-related { padding: 20px 36px 24px; border-top: 1px solid rgba(13,44,94,0.06); grid-column: 1 / -1; }
+.related-title { font-size: 11px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 1.5px; font-family: 'DM Sans', sans-serif; margin-bottom: 14px; }
+.related-strip { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+.related-strip::-webkit-scrollbar { display: none; }
+.related-card {
+  min-width: 130px; background: var(--cream); border-radius: 12px;
+  padding: 12px; cursor: pointer; border: 1.5px solid transparent;
+  transition: all .2s var(--ease); flex-shrink: 0; text-align: center;
+}
+.related-card:hover { border-color: var(--blue); background: white; }
+.related-emoji { font-size: 28px; margin-bottom: 6px; }
+.related-name { font-size: 11px; color: var(--text); font-family: 'DM Sans', sans-serif; line-height: 1.3; margin-bottom: 4px; font-weight: 500; }
+.related-price { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--orange); }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="rgba(255,255,255,.4)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+    Sucursal activa: <strong>Constru Merliot</strong>
+  </div>
+  <div class="topbar-right">
+    <a href="#">Regístrate</a><a href="#">Acceder</a><a href="#">Carretilla</a><a href="#">Pagar</a>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="lemus-v2.html" class="logo-mark">
+    <div class="l-text">lem<em>u</em>s</div>
+    <span class="l-tag">Más que construcción</span>
+  </a>
+  <div class="nav-pills">
+    <a href="lemus-v2.html" class="nav-pill">Inicio</a>
+    <a href="#" class="nav-pill active">Catálogo</a>
+    <a href="lemus-sucursales.html" class="nav-pill">Sucursales</a>
+    <a href="#" class="nav-pill">Blog</a>
+    <a href="#" class="nav-pill">Asistente IA</a>
+  </div>
+  <div class="nav-right">
+    <button class="nav-search-pill">
+      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      Buscar
+    </button>
+    <a href="lemus-carrito.html" class="nav-cart" style="text-decoration:none">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.1 17 7.2 17H19v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H15c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 19.5 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+      Carrito <span class="cart-dot" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="ph-left">
+      <div class="breadcrumb">
+        <a href="lemus-v2.html">Inicio</a>
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        <span>Catálogo</span>
+      </div>
+      <div class="ph-title">Todo el <em>catálogo.</em></div>
+      <div class="ph-sub">Ferretería, construcción, acabados y más</div>
+    </div>
+    <div class="ph-right">
+      <div class="ph-stat"><div class="ph-stat-num">50<span>K+</span></div><div class="ph-stat-label">Productos</div></div>
+      <div class="ph-divider"></div>
+      <div class="ph-stat"><div class="ph-stat-num">8</div><div class="ph-stat-label">Categorías</div></div>
+      <div class="ph-divider"></div>
+      <div class="ph-stat"><div class="ph-stat-num">15<span>+</span></div><div class="ph-stat-label">Marcas</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH STRIP -->
+<div class="search-strip">
+  <div class="strip-search">
+    <input type="text" id="searchInput" placeholder="Buscar en el catálogo... ej: cemento, pintura, taladro" oninput="applyFilters()">
+    <svg class="strip-search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+  </div>
+  <div class="strip-sort">
+    <label>Ordenar:</label>
+    <select id="sortSelect" onchange="applyFilters()">
+      <option value="relevance">Relevancia</option>
+      <option value="price-asc">Precio: menor a mayor</option>
+      <option value="price-desc">Precio: mayor a menor</option>
+      <option value="name-asc">Nombre A–Z</option>
+      <option value="newest">Más nuevos primero</option>
+    </select>
+  </div>
+  <div class="strip-right">
+    <span class="result-count"><strong id="resultNum">40</strong> productos</span>
+    <div class="view-toggle">
+      <button class="vt-btn active" id="btnGrid" onclick="setView('grid')" title="Vista cuadrícula">
+        <svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zm11 0h7v7h-7zM3 14h7v7H3zm11 0h7v7h-7z"/></svg>
+      </button>
+      <button class="vt-btn" id="btnList" onclick="setView('list')" title="Vista lista">
+        <svg viewBox="0 0 24 24"><path d="M3 4h2v2H3zm4 0h14v2H7zM3 11h2v2H3zm4 0h14v2H7zM3 18h2v2H3zm4 0h14v2H7z"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="catalog-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <!-- Categorías -->
+    <div class="sb-section">
+      <div class="sb-title">
+        Categorías
+        <span class="sb-clear" onclick="clearCats()">Limpiar</span>
+      </div>
+      <div class="cat-list" id="catList">
+        <div class="cat-item-check active" data-cat="Herramientas" onclick="toggleCat(this)">
+          <div class="cat-check-left"><div class="cat-check-box checked"></div><span class="cat-emoji-sm">🔧</span><span class="cat-check-name">Herramientas</span></div>
+          <span class="cat-count">9</span>
+        </div>
+        <div class="cat-item-check active" data-cat="Pintura" onclick="toggleCat(this)">
+          <div class="cat-check-left"><div class="cat-check-box checked"></div><span class="cat-emoji-sm">🎨</span><span class="cat-check-name">Pintura</span></div>
+          <span class="cat-count">6</span>
+        </div>
+        <div class="cat-item-check active" data-cat="Eléctrico" onclick="toggleCat(this)">
+          <div class="cat-check-left"><div class="cat-check-box checked"></div><span class="cat-emoji-sm">⚡</span><span class="cat-check-name">Eléctrico</span></div>
+          <span class="cat-count">5</span>
+        </div>
+        <div class="cat-item-check active" data-cat="Plomería" onclick="toggleCat(this)">
+          <div class="cat-check-left"><div class="cat-check-box checked"></div><span class="cat-emoji-sm">🚿</span><span class="cat-check-name">Plomería</span></div>
+          <span class="cat-count">5</span>
+        </div>
+        <div class="cat-item-check active" data-cat="Construcción" onclick="toggleCat(this)">
+          <div class="cat-check-left"><div class="cat-check-box checked"></div><span class="cat-emoji-sm">🏗️</span><span class="cat-check-name">Construcción</span></div>
+          <span class="cat-count">7</span>
+        </div>
+        <div class="cat-item-check active" data-cat="Fijaciones" onclick="toggleCat(this)">
+          <div class="cat-check-left"><div class="cat-check-box checked"></div><span class="cat-emoji-sm">🔩</span><span class="cat-check-name">Fijaciones</span></div>
+          <span class="cat-count">5</span>
+        </div>
+        <div class="cat-item-check active" data-cat="Madera" onclick="toggleCat(this)">
+          <div class="cat-check-left"><div class="cat-check-box checked"></div><span class="cat-emoji-sm">🪵</span><span class="cat-check-name">Madera</span></div>
+          <span class="cat-count">3</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Precio -->
+    <div class="sb-section">
+      <div class="sb-title">Precio</div>
+      <div class="price-inputs">
+        <div class="price-input-wrap"><span>$</span><input type="number" id="priceMin" placeholder="0" min="0" oninput="applyFilters()"></div>
+        <div class="price-input-wrap"><span>$</span><input type="number" id="priceMax" placeholder="500" min="0" oninput="applyFilters()"></div>
+      </div>
+    </div>
+
+    <!-- Disponibilidad -->
+    <div class="sb-section">
+      <div class="sb-title">Disponibilidad</div>
+      <div class="sb-toggles">
+        <div class="sb-toggle" onclick="toggleFilter(this,'stock')">
+          <span class="sb-toggle-label">Solo en existencia</span>
+          <div class="toggle-track" id="toggleStock"><div class="toggle-thumb"></div></div>
+        </div>
+        <div class="sb-toggle" onclick="toggleFilter(this,'offer')">
+          <span class="sb-toggle-label">Solo en oferta</span>
+          <div class="toggle-track" id="toggleOffer"><div class="toggle-thumb"></div></div>
+        </div>
+        <div class="sb-toggle" onclick="toggleFilter(this,'new')">
+          <span class="sb-toggle-label">Solo nuevos</span>
+          <div class="toggle-track" id="toggleNew"><div class="toggle-thumb"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <button class="reset-all" onclick="resetAll()">↺ Limpiar todos los filtros</button>
+  </aside>
+
+  <!-- PRODUCTS -->
+  <div class="products-area">
+    <div class="active-filters" id="activeFilters"></div>
+    <div class="products-grid" id="productsGrid"></div>
+    <div class="pagination" id="pagination"></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">lem<em>u</em>s</div>
+      <div class="footer-tagline">Más que construcción</div>
+      <p class="footer-about">Más de 30 años siendo la ferretería de confianza de El Salvador.</p>
+    </div>
+    <div><div class="footer-col-title">Información</div><ul class="footer-links"><li><a href="#">Blog</a></li><li><a href="#">Sucursales</a></li><li><a href="#">Contacto</a></li></ul></div>
+    <div><div class="footer-col-title">Servicio</div><ul class="footer-links"><li><a href="#">FAQ</a></li><li><a href="#">Garantías</a></li><li><a href="#">Devoluciones</a></li></ul></div>
+    <div><div class="footer-col-title">Contacto</div><ul class="footer-links"><li><a href="#">+(503) 2264-0000</a></li><li><a href="#">info@lemus.com.sv</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2025 Lemus Ferretería.</span><span>Diseñado con ♥ en El Salvador</span></div>
+</footer>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-backdrop" id="modalBackdrop" onclick="handleBackdropClick(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">
+      <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+    </button>
+    <button class="modal-nav modal-prev" onclick="navModal(-1)">
+      <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+    </button>
+    <button class="modal-nav modal-next" onclick="navModal(1)">
+      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+    </button>
+
+    <!-- Left: image -->
+    <div class="modal-img-panel">
+      <div class="modal-badge-wrap" id="modalBadges"></div>
+      <div class="modal-emoji" id="modalEmoji">🔧</div>
+      <div class="modal-thumb-strip" id="modalThumbs"></div>
+    </div>
+
+    <!-- Right: info -->
+    <div class="modal-info">
+      <div class="modal-cat" id="modalCat">Herramientas</div>
+      <div class="modal-name" id="modalName">Nombre del producto</div>
+      <div class="modal-sku" id="modalSku">SKU: 000000</div>
+
+      <div class="modal-price-block">
+        <div class="modal-price" id="modalPrice"><sup>$</sup>0.00</div>
+        <div class="modal-price-orig" id="modalOrig" style="display:none"></div>
+        <div class="modal-discount" id="modalDiscount" style="display:none"></div>
+      </div>
+
+      <div class="modal-stock-row">
+        <div class="modal-stock-dot" id="modalStockDot"></div>
+        <div class="modal-stock-text" id="modalStockText"></div>
+      </div>
+
+      <div class="modal-qty-row">
+        <span class="modal-qty-label">Cantidad</span>
+        <div class="qty-control">
+          <button class="qty-btn" onclick="changeQty(-1)">−</button>
+          <input type="number" class="qty-num" id="qtyInput" value="1" min="1" max="99">
+          <button class="qty-btn" onclick="changeQty(1)">+</button>
+        </div>
+      </div>
+
+      <div class="modal-cta">
+        <button class="modal-btn-primary" id="modalAddBtn" onclick="modalAddToCart()">
+          <svg viewBox="0 0 24 24"><path d="M11 9h2V6h3V4h-3V1h-2v3H8v2h3v3zm-4 9c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zm-8.9-5h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 19.5 4H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.45C5.16 14.28 5 14.61 5 15c0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25z"/></svg>
+          Agregar al carrito
+        </button>
+        <button class="modal-btn-secondary" id="modalFavBtn" onclick="modalToggleFav()" title="Guardar en favoritos">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-specs">
+        <div class="specs-title">Especificaciones</div>
+        <table class="specs-table" id="specsTable"></table>
+      </div>
+    </div>
+
+    <!-- Related strip -->
+    <div class="modal-related">
+      <div class="related-title">Productos relacionados</div>
+      <div class="related-strip" id="relatedStrip"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== PRODUCT DATA =====
+const PRODUCTS = [
+  // HERRAMIENTAS
+  { id:1, name:'Taladro percutor 650W', sku:'331045', cat:'Herramientas', emoji:'🔧', price:89.00, badge:'top', stock:'in', isNew:false, isOffer:false },
+  { id:2, name:'Esmeriladora angular 4½" 750W', sku:'331102', cat:'Herramientas', emoji:'⚙️', price:64.50, badge:'offer', origPrice:79.90, stock:'in', isNew:false, isOffer:true },
+  { id:3, name:'Sierra circular 7¼" 1400W', sku:'331210', cat:'Herramientas', emoji:'🪚', price:112.00, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:4, name:'Nivel láser 3 líneas autonivelante', sku:'332001', cat:'Herramientas', emoji:'📐', price:145.00, badge:'new', stock:'in', isNew:true, isOffer:false },
+  { id:5, name:'Llave de tubo 12"', sku:'330445', cat:'Herramientas', emoji:'🔧', price:12.50, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:6, name:'Cinta métrica 5m Stanley', sku:'330212', cat:'Herramientas', emoji:'📏', price:8.75, badge:'top', stock:'in', isNew:false, isOffer:false },
+  { id:7, name:'Martillo carpintero 16 oz', sku:'330330', cat:'Herramientas', emoji:'🔨', price:14.25, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:8, name:'Juego destornilladores 8 piezas', sku:'330551', cat:'Herramientas', emoji:'🪛', price:22.00, badge:null, stock:'low', isNew:false, isOffer:false },
+  { id:9, name:'Pistola de calor 1500W', sku:'332105', cat:'Herramientas', emoji:'🔫', price:38.90, badge:'new', stock:'in', isNew:true, isOffer:false },
+
+  // PINTURA
+  { id:10, name:'Pintura látex interior blanco galón', sku:'902001', cat:'Pintura', emoji:'🪣', price:28.00, badge:'top', stock:'in', isNew:false, isOffer:false },
+  { id:11, name:'Impac impermeabilizante blanco 3.78L', sku:'902457', cat:'Pintura', emoji:'🎨', price:124.90, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:12, name:'Pintura anticorrosiva gris galón', sku:'902230', cat:'Pintura', emoji:'🪣', price:32.50, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:13, name:'Sellador acrílico base agua galón', sku:'902312', cat:'Pintura', emoji:'🪣', price:18.90, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:14, name:'Rodillo de pintura 9" pelo corto', sku:'902605', cat:'Pintura', emoji:'🖌️', price:6.50, badge:'offer', origPrice:9.00, stock:'in', isNew:false, isOffer:true },
+  { id:15, name:'Thinner corriente litro', sku:'902780', cat:'Pintura', emoji:'🧪', price:3.25, badge:null, stock:'in', isNew:false, isOffer:false },
+
+  // ELÉCTRICO
+  { id:16, name:'Cable eléctrico THHN cal.12 AWG', sku:'445120', cat:'Eléctrico', emoji:'⚡', price:18.50, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:17, name:'Tomacorriente doble 15A', sku:'445230', cat:'Eléctrico', emoji:'🔌', price:4.25, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:18, name:'Breaker 1 polo 20A Square D', sku:'445445', cat:'Eléctrico', emoji:'🔋', price:14.75, badge:'top', stock:'in', isNew:false, isOffer:false },
+  { id:19, name:'Tubo conduit PVC ½" x 3m', sku:'445550', cat:'Eléctrico', emoji:'🪜', price:2.10, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:20, name:'Panel eléctrico 12 circuitos', sku:'445890', cat:'Eléctrico', emoji:'🗄️', price:78.00, badge:'new', stock:'in', isNew:true, isOffer:false },
+
+  // PLOMERÍA
+  { id:21, name:'Tubo PVC agua fría ½" x 6m', sku:'560100', cat:'Plomería', emoji:'🚿', price:4.80, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:22, name:'Llave de paso ½" latón', sku:'560245', cat:'Plomería', emoji:'🔧', price:7.50, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:23, name:'Lavamanos cerámico blanco', sku:'560412', cat:'Plomería', emoji:'🪣', price:45.00, badge:'offer', origPrice:65.00, stock:'in', isNew:false, isOffer:true },
+  { id:24, name:'Ducha eléctrica 110V 5500W', sku:'560590', cat:'Plomería', emoji:'🚿', price:38.50, badge:'top', stock:'in', isNew:false, isOffer:false },
+  { id:25, name:'Codo PVC 90° ½"', sku:'560090', cat:'Plomería', emoji:'🔩', price:0.45, badge:null, stock:'in', isNew:false, isOffer:false },
+
+  // CONSTRUCCIÓN
+  { id:26, name:'Cemento Cessa 42.5 kg', sku:'700100', cat:'Construcción', emoji:'🏗️', price:8.50, badge:'top', stock:'in', isNew:false, isOffer:false },
+  { id:27, name:'Bloque de concreto 20×40×20 cm', sku:'700210', cat:'Construcción', emoji:'🧱', price:0.45, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:28, name:'Varilla corrugada ⅜" x 6m', sku:'700345', cat:'Construcción', emoji:'📊', price:5.90, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:29, name:'Arena gruesa m³', sku:'700420', cat:'Construcción', emoji:'⛱️', price:70.00, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:30, name:'Malla electrosoldada 6×6 3/16"', sku:'700560', cat:'Construcción', emoji:'🕸️', price:32.00, badge:null, stock:'low', isNew:false, isOffer:false },
+  { id:31, name:'Cerámica piso 30×30 antideslizante', sku:'700677', cat:'Construcción', emoji:'🔲', price:22.00, badge:'new', stock:'in', isNew:true, isOffer:false },
+  { id:32, name:'Adhesivo cerámico bolsa 25 kg', sku:'700710', cat:'Construcción', emoji:'🪣', price:12.00, badge:null, stock:'in', isNew:false, isOffer:false },
+
+  // FIJACIONES
+  { id:33, name:'Tensor galvanizado 3/16"', sku:'790176', cat:'Fijaciones', emoji:'🔩', price:0.75, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:34, name:'Tornillo tirafondo 1" galvanizado ×100', sku:'790220', cat:'Fijaciones', emoji:'🔩', price:3.50, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:35, name:'Taco Fisher ¼" ×100 unidades', sku:'790310', cat:'Fijaciones', emoji:'📌', price:4.25, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:36, name:'Clavo acero 2" ×1 lb', sku:'790445', cat:'Fijaciones', emoji:'📍', price:1.10, badge:'offer', origPrice:1.50, stock:'in', isNew:false, isOffer:true },
+  { id:37, name:'Anclaje expansivo ⅜" ×50', sku:'790510', cat:'Fijaciones', emoji:'🔩', price:8.90, badge:null, stock:'low', isNew:false, isOffer:false },
+
+  // MADERA
+  { id:38, name:'Tabla pino 1×6×8 pies', sku:'880100', cat:'Madera', emoji:'🪵', price:9.50, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:39, name:'Tablero OSB 4×8 pies ½"', sku:'880240', cat:'Madera', emoji:'🪵', price:22.00, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:40, name:'Regla 2×4×8 pies pino', sku:'880360', cat:'Madera', emoji:'🪵', price:7.20, badge:'new', stock:'in', isNew:true, isOffer:false },
+];
+
+// ===== STATE =====
+let state = {
+  cats: new Set(PRODUCTS.map(p => p.cat)),
+  search: '',
+  priceMin: 0,
+  priceMax: Infinity,
+  onlyStock: false,
+  onlyOffer: false,
+  onlyNew: false,
+  sort: 'relevance',
+  view: 'grid',
+  cart: 0,
+};
+
+// ===== TOGGLE CAT =====
+function toggleCat(el) {
+  const cat = el.dataset.cat;
+  const box = el.querySelector('.cat-check-box');
+  if (state.cats.has(cat)) { state.cats.delete(cat); el.classList.remove('active'); box.classList.remove('checked'); }
+  else { state.cats.add(cat); el.classList.add('active'); box.classList.add('checked'); }
+  applyFilters();
+}
+function clearCats() {
+  document.querySelectorAll('.cat-item-check').forEach(el => { el.classList.remove('active'); el.querySelector('.cat-check-box').classList.remove('checked'); });
+  state.cats.clear(); applyFilters();
+}
+
+// ===== TOGGLE FILTER =====
+function toggleFilter(el, key) {
+  const track = el.querySelector('.toggle-track');
+  state[key === 'stock' ? 'onlyStock' : key === 'offer' ? 'onlyOffer' : 'onlyNew'] = !state[key === 'stock' ? 'onlyStock' : key === 'offer' ? 'onlyOffer' : 'onlyNew'];
+  track.classList.toggle('on');
+  applyFilters();
+}
+
+// ===== SET VIEW =====
+function setView(v) {
+  state.view = v;
+  const grid = document.getElementById('productsGrid');
+  grid.classList.toggle('view-list', v === 'list');
+  document.getElementById('btnGrid').classList.toggle('active', v === 'grid');
+  document.getElementById('btnList').classList.toggle('active', v === 'list');
+}
+
+// ===== RESET ALL =====
+function resetAll() {
+  state.cats = new Set(PRODUCTS.map(p => p.cat));
+  document.querySelectorAll('.cat-item-check').forEach(el => { el.classList.add('active'); el.querySelector('.cat-check-box').classList.add('checked'); });
+  state.onlyStock = false; state.onlyOffer = false; state.onlyNew = false;
+  document.querySelectorAll('.toggle-track').forEach(t => t.classList.remove('on'));
+  document.getElementById('priceMin').value = '';
+  document.getElementById('priceMax').value = '';
+  state.priceMin = 0; state.priceMax = Infinity;
+  document.getElementById('searchInput').value = '';
+  state.search = '';
+  document.getElementById('sortSelect').value = 'relevance';
+  state.sort = 'relevance';
+  applyFilters();
+}
+
+// ===== CART STORAGE =====
+function getCart() {
+  try { return JSON.parse(localStorage.getItem('lemus_cart') || '[]'); } catch(e) { return []; }
+}
+function saveCart(cart) {
+  localStorage.setItem('lemus_cart', JSON.stringify(cart));
+  updateCartBadge();
+}
+function updateCartBadge() {
+  const cart = getCart();
+  const total = cart.reduce((s,i) => s + i.qty, 0);
+  const el = document.getElementById('cartCount');
+  if (el) el.textContent = total;
+}
+
+// ===== CART STORAGE =====
+function getCart() {
+  try { return JSON.parse(localStorage.getItem('lemus_cart') || '[]'); } catch(e) { return []; }
+}
+function saveCart(cart) {
+  localStorage.setItem('lemus_cart', JSON.stringify(cart));
+  updateCartBadge();
+}
+function updateCartBadge() {
+  const total = getCart().reduce((s,i) => s + i.qty, 0);
+  const el = document.getElementById('cartCount');
+  if (el) el.textContent = total || 0;
+}
+
+// ===== ADD TO CART =====
+function addToCart(id, e) {
+  e.preventDefault(); e.stopPropagation();
+  const p = PRODUCTS.find(x => x.id === id);
+  if (!p) return;
+  const cart = getCart();
+  const existing = cart.find(i => i.id === id);
+  if (existing) { existing.qty++; }
+  else { cart.push({ id:p.id, name:p.name, sku:p.sku, cat:p.cat, emoji:p.emoji, price:p.price, qty:1, stock:p.stock }); }
+  saveCart(cart);
+  const btn = e.currentTarget;
+  const orig = btn.innerHTML;
+  btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Agregado';
+  btn.style.background = '#16a34a';
+  setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; }, 1400);
+}
+
+// Init badge on load
+updateCartBadge();
+
+// ===== APPLY FILTERS =====
+function applyFilters() {
+  state.search = document.getElementById('searchInput').value.toLowerCase();
+  const pMin = parseFloat(document.getElementById('priceMin').value) || 0;
+  const pMax = parseFloat(document.getElementById('priceMax').value) || Infinity;
+  state.priceMin = pMin; state.priceMax = pMax;
+  state.sort = document.getElementById('sortSelect').value;
+
+  let filtered = PRODUCTS.filter(p => {
+    if (!state.cats.has(p.cat)) return false;
+    if (state.search && !p.name.toLowerCase().includes(state.search) && !p.sku.includes(state.search) && !p.cat.toLowerCase().includes(state.search)) return false;
+    if (p.price < state.priceMin || p.price > state.priceMax) return false;
+    if (state.onlyStock && p.stock === 'out') return false;
+    if (state.onlyOffer && !p.isOffer) return false;
+    if (state.onlyNew && !p.isNew) return false;
+    return true;
+  });
+
+  // Sort
+  if (state.sort === 'price-asc') filtered.sort((a,b) => a.price - b.price);
+  else if (state.sort === 'price-desc') filtered.sort((a,b) => b.price - a.price);
+  else if (state.sort === 'name-asc') filtered.sort((a,b) => a.name.localeCompare(b.name));
+  else if (state.sort === 'newest') filtered.sort((a,b) => (b.isNew?1:0)-(a.isNew?1:0));
+
+  renderProducts(filtered);
+  renderActiveFilters();
+  document.getElementById('resultNum').textContent = filtered.length;
+}
+
+// ===== RENDER PRODUCTS =====
+function renderProducts(products) {
+  currentFilteredList = products;
+  const grid = document.getElementById('productsGrid');
+  if (products.length === 0) {
+    grid.innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">Sin resultados</div><div class="empty-sub">Prueba con otros filtros o términos de búsqueda</div><button class="empty-reset" onclick="resetAll()">Limpiar filtros</button></div>`;
+    return;
+  }
+  grid.innerHTML = products.map((p, i) => `
+    <a href="#" class="prod-card" style="animation-delay:${i * 0.04}s" onclick="openModal(${p.id});return false">
+      <div class="prod-img">
+        ${p.badge ? `<span class="prod-badge badge-${p.badge === 'new' ? 'new' : p.badge === 'offer' ? 'offer' : 'top'}">${p.badge === 'new' ? 'Nuevo' : p.badge === 'offer' ? 'Oferta' : 'Top'}</span>` : ''}
+        <button class="prod-fav" onclick="toggleFav(this,event)" aria-label="Favorito">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+        ${p.emoji}
+      </div>
+      <div class="prod-body">
+        <div class="prod-cat-label">${p.cat}</div>
+        <div class="prod-name">${p.name}</div>
+        <div class="prod-sku">SKU: ${p.sku}</div>
+        <div class="prod-price-row">
+          <div class="prod-price"><sup>$</sup>${p.price.toFixed(2)}</div>
+          ${p.origPrice ? `<div class="prod-price-orig">$${p.origPrice.toFixed(2)}</div>` : ''}
+        </div>
+      </div>
+      <div class="prod-foot">
+        <span class="prod-stock ${p.stock === 'in' ? 'stock-in' : p.stock === 'low' ? 'stock-low' : 'stock-out'}">${p.stock === 'in' ? 'En existencia' : p.stock === 'low' ? 'Últimas unidades' : 'Agotado'}</span>
+        <button class="add-cart ${p.stock === 'out' ? 'out' : ''}" onclick="addToCart(${p.id}, event)" ${p.stock === 'out' ? 'disabled' : ''}>
+          <svg viewBox="0 0 24 24"><path d="M11 9h2V6h3V4h-3V1h-2v3H8v2h3v3zm-4 9c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zm-8.9-5h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 19.5 4H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.45C5.16 14.28 5 14.61 5 15c0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25z"/></svg>
+          Agregar
+        </button>
+      </div>
+    </a>`).join('');
+}
+
+// ===== FAV =====
+function toggleFav(btn, e) {
+  e.preventDefault(); e.stopPropagation();
+  btn.classList.toggle('active');
+}
+
+// ===== ACTIVE FILTER CHIPS =====
+function renderActiveFilters() {
+  const wrap = document.getElementById('activeFilters');
+  const chips = [];
+  if (state.search) chips.push({ label: `"${state.search}"`, action: () => { document.getElementById('searchInput').value=''; state.search=''; applyFilters(); } });
+  if (state.onlyStock) chips.push({ label:'En existencia', action: () => { state.onlyStock=false; document.getElementById('toggleStock').classList.remove('on'); applyFilters(); } });
+  if (state.onlyOffer) chips.push({ label:'En oferta', action: () => { state.onlyOffer=false; document.getElementById('toggleOffer').classList.remove('on'); applyFilters(); } });
+  if (state.onlyNew) chips.push({ label:'Nuevos', action: () => { state.onlyNew=false; document.getElementById('toggleNew').classList.remove('on'); applyFilters(); } });
+  if (state.priceMin > 0) chips.push({ label:`Desde $${state.priceMin}`, action: () => { document.getElementById('priceMin').value=''; state.priceMin=0; applyFilters(); } });
+  if (state.priceMax < Infinity) chips.push({ label:`Hasta $${state.priceMax}`, action: () => { document.getElementById('priceMax').value=''; state.priceMax=Infinity; applyFilters(); } });
+
+  wrap.innerHTML = chips.map((c,i) => `<div class="filter-chip" data-idx="${i}">${c.label} <span>×</span></div>`).join('') + (chips.length > 1 ? `<span class="clear-all-chip" onclick="resetAll()">Limpiar todo</span>` : '');
+  wrap.querySelectorAll('.filter-chip').forEach((el, i) => el.onclick = chips[i].action);
+}
+
+// ===== MODAL STATE =====
+let currentProductId = null;
+let currentFilteredList = [];
+let modalFavs = new Set();
+
+// ===== INIT =====
+applyFilters();
+updateCartBadge();
+
+// Specs generator per category
+function getSpecs(p) {
+  const base = [
+    ['SKU', p.sku],
+    ['Categoría', p.cat],
+    ['Disponibilidad', p.stock === 'in' ? 'En existencia' : p.stock === 'low' ? 'Últimas unidades' : 'Agotado'],
+  ];
+  const extras = {
+    'Herramientas': [['Garantía','12 meses'],['Origen','Importado'],['Voltaje','110V / 220V']],
+    'Pintura':      [['Rendimiento','~12 m²/lt'],['Secado','2–4 horas'],['Base','Agua']],
+    'Eléctrico':    [['Norma','NEMA'],['Material','Cobre / PVC'],['Certificación','UL Listed']],
+    'Plomería':     [['Material','PVC / Latón'],['Presión máx','150 PSI'],['Temp. máx','60°C']],
+    'Construcción': [['Origen','El Salvador'],['Norma','ASTM'],['Uso','Interior / Exterior']],
+    'Fijaciones':   [['Material','Acero galvanizado'],['Acabado','Zincado'],['Empaque','Bolsa/Caja']],
+    'Madera':       [['Especie','Pino tratado'],['Humedad','< 19%'],['Tratamiento','CCA']],
+  };
+  return [...base, ...(extras[p.cat] || [])];
+}
+
+// ===== OPEN MODAL =====
+function openModal(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  if (!p) return;
+  currentProductId = id;
+  document.getElementById('modalEmoji').textContent = p.emoji;
+  document.getElementById('modalCat').textContent = p.cat;
+  document.getElementById('modalName').textContent = p.name;
+  document.getElementById('modalSku').textContent = 'SKU: ' + p.sku;
+  document.getElementById('modalPrice').innerHTML = `<sup>$</sup>${p.price.toFixed(2)}`;
+  document.getElementById('qtyInput').value = 1;
+
+  // Badge
+  const badgeWrap = document.getElementById('modalBadges');
+  badgeWrap.innerHTML = p.badge ? `<span class="prod-badge badge-${p.badge === 'new' ? 'new' : p.badge === 'offer' ? 'offer' : 'top'}">${p.badge === 'new' ? 'Nuevo' : p.badge === 'offer' ? 'Oferta' : 'Top'}</span>` : '';
+
+  // Orig price + discount
+  const origEl = document.getElementById('modalOrig');
+  const discEl = document.getElementById('modalDiscount');
+  if (p.origPrice) {
+    origEl.textContent = `$${p.origPrice.toFixed(2)}`;
+    origEl.style.display = 'block';
+    const pct = Math.round((1 - p.price / p.origPrice) * 100);
+    discEl.textContent = `−${pct}%`;
+    discEl.style.display = 'inline-block';
+  } else {
+    origEl.style.display = 'none';
+    discEl.style.display = 'none';
+  }
+
+  // Stock
+  const dot = document.getElementById('modalStockDot');
+  const txt = document.getElementById('modalStockText');
+  const addBtn = document.getElementById('modalAddBtn');
+  const stockMap = { in: ['#16a34a','En existencia'], low: ['#d97706','Últimas unidades'], out: ['#dc2626','Agotado'] };
+  const [color, label] = stockMap[p.stock];
+  dot.style.background = color;
+  txt.textContent = label;
+  txt.style.color = color;
+  addBtn.disabled = p.stock === 'out';
+  addBtn.className = 'modal-btn-primary' + (p.stock === 'out' ? ' out' : '');
+
+  // Fav state
+  const favBtn = document.getElementById('modalFavBtn');
+  favBtn.classList.toggle('faved', modalFavs.has(id));
+
+  // Thumbnails (same emoji repeated as mock variants)
+  const thumbs = document.getElementById('modalThumbs');
+  thumbs.innerHTML = [p.emoji, p.emoji, p.emoji].map((e,i) =>
+    `<div class="modal-thumb ${i===0?'active':''}" onclick="selectThumb(this)">${e}</div>`).join('');
+
+  // Specs
+  document.getElementById('specsTable').innerHTML = getSpecs(p).map(([k,v]) =>
+    `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+
+  // Related — same category, different product
+  const related = PRODUCTS.filter(x => x.cat === p.cat && x.id !== p.id).slice(0, 6);
+  document.getElementById('relatedStrip').innerHTML = related.map(r =>
+    `<div class="related-card" onclick="openModal(${r.id})">
+      <div class="related-emoji">${r.emoji}</div>
+      <div class="related-name">${r.name}</div>
+      <div class="related-price">$${r.price.toFixed(2)}</div>
+    </div>`).join('');
+
+  document.getElementById('modalBackdrop').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalBackdrop').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handleBackdropClick(e) {
+  if (e.target === document.getElementById('modalBackdrop')) closeModal();
+}
+
+// Keyboard nav
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('modalBackdrop').classList.contains('open')) return;
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'ArrowRight') navModal(1);
+  if (e.key === 'ArrowLeft') navModal(-1);
+});
+
+function navModal(dir) {
+  const ids = currentFilteredList.map(p => p.id);
+  const idx = ids.indexOf(currentProductId);
+  const next = ids[(idx + dir + ids.length) % ids.length];
+  openModal(next);
+}
+
+function selectThumb(el) {
+  document.querySelectorAll('.modal-thumb').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function changeQty(delta) {
+  const inp = document.getElementById('qtyInput');
+  inp.value = Math.max(1, Math.min(99, parseInt(inp.value) + delta));
+}
+
+function modalAddToCart() {
+  const qty = parseInt(document.getElementById('qtyInput').value) || 1;
+  const p = PRODUCTS.find(x => x.id === currentProductId);
+  if (!p) return;
+  const cart = getCart();
+  const existing = cart.find(i => i.id === p.id);
+  if (existing) { existing.qty += qty; } 
+  else { cart.push({ id:p.id, name:p.name, sku:p.sku, cat:p.cat, emoji:p.emoji, price:p.price, qty, stock:p.stock }); }
+  saveCart(cart);
+  const btn = document.getElementById('modalAddBtn');
+  btn.innerHTML = `<svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> ¡Agregado!`;
+  btn.classList.add('added');
+  setTimeout(() => {
+    btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M11 9h2V6h3V4h-3V1h-2v3H8v2h3v3zm-4 9c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zm-8.9-5h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 19.5 4H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.45C5.16 14.28 5 14.61 5 15c0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25z"/></svg> Agregar al carrito`;
+    btn.classList.remove('added');
+  }, 2000);
+}
+
+function modalToggleFav() {
+  if (!currentProductId) return;
+  const btn = document.getElementById('modalFavBtn');
+  if (modalFavs.has(currentProductId)) { modalFavs.delete(currentProductId); btn.classList.remove('faved'); }
+  else { modalFavs.add(currentProductId); btn.classList.add('faved'); }
+}
+</script>
+</body>
+</html>
