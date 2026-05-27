@@ -88,27 +88,46 @@ nav{background:rgba(244,241,235,.95);backdrop-filter:blur(20px);padding:0 2rem;h
 
 /* CART ITEMS */
 .cart-items{padding:0}
-.cart-item{display:grid;grid-template-columns:72px 1fr auto;gap:16px;align-items:center;padding:18px 24px;border-bottom:1px solid rgba(13,44,94,.05);transition:background .15s;position:relative}
+.cart-item{
+  display:grid;
+  grid-template-columns:80px 1fr;
+  gap:20px;
+  align-items:center;
+  padding:20px 24px;
+  border-bottom:1px solid rgba(13,44,94,.05);
+  transition:background .15s;
+}
 .cart-item:last-child{border-bottom:none}
 .cart-item:hover{background:rgba(13,44,94,.015)}
-.item-img{width:72px;height:72px;background:var(--cream);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;border:1px solid rgba(13,44,94,.06)}
-.item-info{min-width:0}
-.item-cat{font-size:10px;color:var(--orange);text-transform:uppercase;letter-spacing:.8px;font-weight:600;font-family:'DM Sans',sans-serif;margin-bottom:3px}
-.item-name{font-size:13px;font-weight:500;color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.35;margin-bottom:3px}
-.item-sku{font-size:10px;color:var(--gray);font-family:'DM Sans',sans-serif}
-.item-stock{font-size:10px;padding:2px 7px;border-radius:10px;background:var(--green-bg);color:var(--green);font-weight:500;font-family:'DM Sans',sans-serif;display:inline-block;margin-top:4px}
-.item-right{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex-shrink:0}
-.item-price{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--orange);line-height:1}
-.item-price sup{font-size:10px;vertical-align:super}
-.item-unit{font-size:10px;color:var(--gray);font-family:'DM Sans',sans-serif;margin-top:-4px;text-align:right}
+.item-img{
+  width:80px;height:80px;
+  background:linear-gradient(135deg,#1A3F7A,#0D2C5E);
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:34px;
+  flex-shrink:0;
+  border:1px solid rgba(13,44,94,.08);
+}
+.item-info{min-width:0;display:flex;flex-direction:column;gap:0}
+.item-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:4px}
+.item-cat{font-size:10px;color:var(--orange);text-transform:uppercase;letter-spacing:.8px;font-weight:600;font-family:'DM Sans',sans-serif}
+.item-name{font-size:14px;font-weight:600;color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.35;margin-bottom:2px}
+.item-sku{font-size:11px;color:var(--gray);font-family:'DM Sans',sans-serif;margin-bottom:8px}
+.item-stock{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--green-bg);color:var(--green);font-weight:500;font-family:'DM Sans',sans-serif;display:inline-block;margin-bottom:12px}
+.item-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.item-price-col{display:flex;flex-direction:column;gap:2px}
+.item-price{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:var(--orange);line-height:1}
+.item-price sup{font-size:12px;vertical-align:super}
+.item-unit{font-size:11px;color:var(--gray);font-family:'DM Sans',sans-serif}
+.item-actions{display:flex;align-items:center;gap:10px}
 .qty-row{display:flex;align-items:center;gap:8px}
-.qty-ctrl{display:flex;align-items:center;border:1.5px solid rgba(13,44,94,.12);border-radius:8px;overflow:hidden}
-.qty-btn{width:30px;height:30px;background:var(--cream);border:none;cursor:pointer;font-size:16px;color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:300;transition:background .15s;flex-shrink:0}
+.qty-ctrl{display:flex;align-items:center;background:var(--cream);border:1.5px solid rgba(13,44,94,.1);border-radius:10px;overflow:hidden}
+.qty-btn{width:34px;height:34px;background:transparent;border:none;cursor:pointer;font-size:18px;color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:300;transition:background .15s;flex-shrink:0}
 .qty-btn:hover{background:var(--cream-dark)}
-.qty-val{width:36px;height:30px;text-align:center;border:none;border-left:1.5px solid rgba(13,44,94,.12);border-right:1.5px solid rgba(13,44,94,.12);font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;color:var(--blue);background:white;outline:none}
-.remove-btn{width:26px;height:26px;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:6px;transition:background .15s;opacity:.4;transition:all .15s}
-.remove-btn:hover{background:rgba(220,38,38,.08);opacity:1}
-.remove-btn svg{width:14px;height:14px;fill:#dc2626}
+.qty-val{width:40px;height:34px;text-align:center;border:none;border-left:1.5px solid rgba(13,44,94,.1);border-right:1.5px solid rgba(13,44,94,.1);font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;color:var(--blue);background:white;outline:none}
+.remove-btn{width:34px;height:34px;background:transparent;border:1.5px solid rgba(220,38,38,.15);cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:10px;transition:all .15s}
+.remove-btn:hover{background:rgba(220,38,38,.06);border-color:rgba(220,38,38,.3)}
+.remove-btn svg{width:15px;height:15px;fill:#dc2626}
 
 /* EMPTY STATE */
 .cart-empty{padding:60px 24px;text-align:center}
@@ -555,20 +574,11 @@ function getStoredCart() {
 }
 function saveStoredCart() {
   localStorage.setItem('lemus_cart', JSON.stringify(cart));
-  document.getElementById('navCartCount').textContent = cart.reduce((s,i)=>s+i.qty,0);
+  document.getElementById('navCartCount').textContent = cart.reduce((s,i)=>s+i.qty,0) || 0;
 }
 
 // ===== CART DATA — loaded from localStorage =====
 let cart = getStoredCart();
-
-// If cart is empty (direct access), load demo items
-if (cart.length === 0) {
-  cart = [
-    { id:1, name:'Taladro percutor 650W', sku:'331045', cat:'Herramientas', emoji:'🔧', price:89.00, qty:1, stock:'in' },
-    { id:2, name:'Pintura látex interior blanco galón', sku:'902001', cat:'Pintura', emoji:'🪣', price:28.00, qty:2, stock:'in' },
-    { id:3, name:'Tensor galvanizado 3/16"', sku:'790176', cat:'Fijaciones', emoji:'🔩', price:0.75, qty:10, stock:'in' },
-  ];
-}
 
 let delivery = { type:'pickup', cost:0 };
 let coupon = { applied:false, code:'', discount:0 };
@@ -592,21 +602,21 @@ function renderCart() {
         <div class="item-name">${item.name}</div>
         <div class="item-sku">SKU: ${item.sku}</div>
         <span class="item-stock">En existencia</span>
-      </div>
-      <div class="item-right">
-        <div>
-          <div class="item-price"><sup>$</sup>${(item.price * item.qty).toFixed(2)}</div>
-          <div class="item-unit">$${item.price.toFixed(2)} c/u</div>
-        </div>
-        <div class="qty-row">
-          <div class="qty-ctrl">
-            <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
-            <input type="number" class="qty-val" value="${item.qty}" min="1" max="99" onchange="setQty(${item.id},this.value)">
-            <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+        <div class="item-bottom">
+          <div class="item-price-col">
+            <div class="item-price"><sup>$</sup>${(item.price * item.qty).toFixed(2)}</div>
+            <div class="item-unit">$${item.price.toFixed(2)} por unidad</div>
           </div>
-          <button class="remove-btn" onclick="removeItem(${item.id})" title="Eliminar">
-            <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-          </button>
+          <div class="item-actions">
+            <div class="qty-ctrl">
+              <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+              <input type="number" class="qty-val" value="${item.qty}" min="1" max="99" onchange="setQty(${item.id},this.value)">
+              <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+            </div>
+            <button class="remove-btn" onclick="removeItem(${item.id})" title="Eliminar">
+              <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>`).join('');
