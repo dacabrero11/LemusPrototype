@@ -1760,9 +1760,9 @@ document.addEventListener('click', e => {
 (function() {
   const hero = document.querySelector('.hero');
   const lines = [
-    { el: document.getElementById('titleLine1'), depth: 0.018 },
-    { el: document.getElementById('titleLine2'), depth: 0.028 },
-    { el: document.getElementById('titleLine3'), depth: 0.038 },
+    { el: document.getElementById('titleLine1'), depth: 0.04 },
+    { el: document.getElementById('titleLine2'), depth: 0.07 },
+    { el: document.getElementById('titleLine3'), depth: 0.10 },
   ];
   const sub  = document.querySelector('.hero-sub');
   const cta  = document.querySelector('.hero-cta-row');
@@ -1788,8 +1788,8 @@ document.addEventListener('click', e => {
 
   function animate() {
     // Smooth lerp toward target
-    currentX += (targetX - currentX) * 0.08;
-    currentY += (targetY - currentY) * 0.08;
+    currentX += (targetX - currentX) * 0.06;
+    currentY += (targetY - currentY) * 0.06;
 
     lines.forEach(({ el, depth }) => {
       const x = currentX * depth * 60;
@@ -1798,8 +1798,8 @@ document.addEventListener('click', e => {
     });
 
     // Sub and CTA move slightly too
-    if (sub) sub.style.transform = `translate(${currentX * 6}px, ${currentY * 4}px)`;
-    if (cta) cta.style.transform = `translate(${currentX * 4}px, ${currentY * 2}px)`;
+    if (sub) sub.style.transform = `translate(${currentX * 14}px, ${currentY * 8}px)`;
+    if (cta) cta.style.transform = `translate(${currentX * 10}px, ${currentY * 5}px)`;
 
     const stillMoving = Math.abs(targetX - currentX) > 0.001 || Math.abs(targetY - currentY) > 0.001;
     raf = stillMoving ? requestAnimationFrame(animate) : null;
