@@ -559,6 +559,50 @@ footer { background: var(--blue); padding: 48px 2rem 24px; color: rgba(255,255,2
 .related-emoji { font-size: 28px; margin-bottom: 6px; }
 .related-name { font-size: 11px; color: var(--text); font-family: 'DM Sans', sans-serif; line-height: 1.3; margin-bottom: 4px; font-weight: 500; }
 .related-price { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--orange); }
+
+/* ===== EXPANDING SEARCH ===== */
+.nav-search-wrap { position: relative; }
+.nav-search-pill {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(13,44,94,.06); border: 1.5px solid transparent;
+  border-radius: 30px; padding: 8px 16px;
+  font-size: 13px; font-family: 'DM Sans', sans-serif;
+  color: var(--text-muted); cursor: text;
+  transition: all .2s; width: 180px;
+}
+.nav-search-pill.expanded {
+  width: 300px; background: white;
+  border-color: rgba(13,44,94,.2);
+  box-shadow: 0 4px 16px rgba(13,44,94,.1);
+}
+.nav-search-pill input {
+  border: none; background: transparent; outline: none;
+  font-size: 13px; font-family: 'DM Sans', sans-serif;
+  color: var(--text); width: 100%; min-width: 0;
+}
+.nav-search-pill input::placeholder { color: var(--text-muted); }
+.nav-search-pill svg { width: 15px; height: 15px; fill: var(--gray); flex-shrink: 0; }
+.search-dropdown {
+  position: absolute; top: calc(100% + 8px); left: 0; right: 0;
+  background: white; border-radius: 12px;
+  border: 1.5px solid rgba(13,44,94,.1);
+  box-shadow: 0 8px 28px rgba(13,44,94,.12);
+  overflow: hidden; display: none; z-index: 300;
+}
+.search-dropdown.show { display: block; }
+.search-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 16px; cursor: pointer;
+  transition: background .15s; text-decoration: none; color: inherit;
+}
+.search-item:hover { background: rgba(13,44,94,.04); }
+.search-item-emoji { font-size: 20px; width: 32px; text-align: center; flex-shrink: 0; }
+.search-item-name { font-size: 13px; font-weight: 500; color: var(--text); font-family: 'DM Sans', sans-serif; }
+.search-item-cat { font-size: 11px; color: var(--gray); font-family: 'DM Sans', sans-serif; }
+.search-item-price { margin-left: auto; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--orange); flex-shrink: 0; }
+.search-footer { padding: 10px 16px; border-top: 1px solid rgba(13,44,94,.06); background: rgba(13,44,94,.02); cursor: pointer; }
+.search-footer-text { font-size: 12px; color: var(--blue); font-family: 'DM Sans', sans-serif; font-weight: 500; }
+
 </style>
 </head>
 <body>
@@ -588,10 +632,13 @@ footer { background: var(--blue); padding: 48px 2rem 24px; color: rgba(255,255,2
     <a href="#" class="nav-pill">Asistente IA</a>
   </div>
   <div class="nav-right">
-    <button class="nav-search-pill">
+  <div class="nav-search-wrap" id="searchWrap">
+    <div class="nav-search-pill" id="searchPill" onclick="focusSearch()">
       <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-      Buscar
-    </button>
+      <input type="text" id="navSearchInput" placeholder="Buscar productos..." oninput="handleSearch(this.value)" onkeydown="handleSearchKey(event)" onfocus="expandSearch()" onblur="collapseSearch()">
+    </div>
+    <div class="search-dropdown" id="searchDropdown"></div>
+  </div>
     <a href="lemus-carrito.html" class="nav-cart" style="text-decoration:none">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.1 17 7.2 17H19v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H15c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 19.5 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
       Carrito <span class="cart-dot" id="cartCount">0</span>
@@ -1023,7 +1070,7 @@ function renderProducts(products) {
     return;
   }
   grid.innerHTML = products.map((p, i) => `
-    <a href="#" class="prod-card" style="animation-delay:${i * 0.04}s" onclick="openModal(${p.id});return false">
+    <a href="#" class="prod-card" style="animation-delay:${i * 0.04}s" onclick="handleCardClick(event,${p.id});return false">
       <div class="prod-img">
         ${p.badge ? `<span class="prod-badge badge-${p.badge === 'new' ? 'new' : p.badge === 'offer' ? 'offer' : 'top'}">${p.badge === 'new' ? 'Nuevo' : p.badge === 'offer' ? 'Oferta' : 'Top'}</span>` : ''}
         <button class="prod-fav" onclick="toggleFav(this,event)" aria-label="Favorito">
@@ -1080,6 +1127,16 @@ let modalFavs = new Set();
 applyFilters();
 updateCartBadge();
 
+// Read ?q= URL param and pre-fill search
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const q = params.get('q');
+  if (q) {
+    const inp = document.getElementById('searchInput');
+    if (inp) { inp.value = q; applyFilters(); inp.scrollIntoView({behavior:'smooth',block:'center'}); }
+  }
+})();
+
 // Specs generator per category
 function getSpecs(p) {
   const base = [
@@ -1097,6 +1154,15 @@ function getSpecs(p) {
     'Madera':       [['Especie','Pino tratado'],['Humedad','< 19%'],['Tratamiento','CCA']],
   };
   return [...base, ...(extras[p.cat] || [])];
+}
+
+// ===== CARD CLICK: product 1 goes to page, rest open modal =====
+function handleCardClick(e, id) {
+  if (id === 1) {
+    window.location.href = 'lemus-producto.html';
+    return;
+  }
+  openModal(id);
 }
 
 // ===== OPEN MODAL =====

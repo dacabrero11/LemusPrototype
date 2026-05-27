@@ -217,6 +217,50 @@ nav{background:rgba(244,241,235,.95);backdrop-filter:blur(20px);padding:0 2rem;h
 /* FOOTER */
 footer{background:var(--blue);padding:40px 2rem 20px;color:rgba(255,255,255,.6)}
 .footer-bottom{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.25);font-family:'DM Sans',sans-serif;padding-top:20px;border-top:1px solid rgba(255,255,255,.08)}
+
+/* ===== EXPANDING SEARCH ===== */
+.nav-search-wrap { position: relative; }
+.nav-search-pill {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(13,44,94,.06); border: 1.5px solid transparent;
+  border-radius: 30px; padding: 8px 16px;
+  font-size: 13px; font-family: 'DM Sans', sans-serif;
+  color: var(--text-muted); cursor: text;
+  transition: all .2s; width: 180px;
+}
+.nav-search-pill.expanded {
+  width: 300px; background: white;
+  border-color: rgba(13,44,94,.2);
+  box-shadow: 0 4px 16px rgba(13,44,94,.1);
+}
+.nav-search-pill input {
+  border: none; background: transparent; outline: none;
+  font-size: 13px; font-family: 'DM Sans', sans-serif;
+  color: var(--text); width: 100%; min-width: 0;
+}
+.nav-search-pill input::placeholder { color: var(--text-muted); }
+.nav-search-pill svg { width: 15px; height: 15px; fill: var(--gray); flex-shrink: 0; }
+.search-dropdown {
+  position: absolute; top: calc(100% + 8px); left: 0; right: 0;
+  background: white; border-radius: 12px;
+  border: 1.5px solid rgba(13,44,94,.1);
+  box-shadow: 0 8px 28px rgba(13,44,94,.12);
+  overflow: hidden; display: none; z-index: 300;
+}
+.search-dropdown.show { display: block; }
+.search-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 16px; cursor: pointer;
+  transition: background .15s; text-decoration: none; color: inherit;
+}
+.search-item:hover { background: rgba(13,44,94,.04); }
+.search-item-emoji { font-size: 20px; width: 32px; text-align: center; flex-shrink: 0; }
+.search-item-name { font-size: 13px; font-weight: 500; color: var(--text); font-family: 'DM Sans', sans-serif; }
+.search-item-cat { font-size: 11px; color: var(--gray); font-family: 'DM Sans', sans-serif; }
+.search-item-price { margin-left: auto; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--orange); flex-shrink: 0; }
+.search-footer { padding: 10px 16px; border-top: 1px solid rgba(13,44,94,.06); background: rgba(13,44,94,.02); cursor: pointer; }
+.search-footer-text { font-size: 12px; color: var(--blue); font-family: 'DM Sans', sans-serif; font-weight: 500; }
+
 </style>
 </head>
 <body>
@@ -763,3 +807,60 @@ document.querySelectorAll('.form-input').forEach(input => {
 </script>
 </body>
 </html>
+<script>
+// ===== NAV SEARCH =====
+const QUICK_PRODUCTS = [
+  {id:1,name:'Taladro percutor 650W',cat:'Herramientas',emoji:'🔧',price:89.00},
+  {id:2,name:'Esmeriladora angular 4½" 750W',cat:'Herramientas',emoji:'⚙️',price:64.50},
+  {id:3,name:'Sierra circular 7¼" 1400W',cat:'Herramientas',emoji:'🪚',price:112.00},
+  {id:10,name:'Pintura látex interior blanco galón',cat:'Pintura',emoji:'🪣',price:28.00},
+  {id:11,name:'Impac impermeabilizante 3.78L',cat:'Pintura',emoji:'🎨',price:124.90},
+  {id:16,name:'Cable eléctrico THHN cal.12 AWG',cat:'Eléctrico',emoji:'⚡',price:18.50},
+  {id:18,name:'Breaker 1 polo 20A Square D',cat:'Eléctrico',emoji:'🔋',price:14.75},
+  {id:21,name:'Tubo PVC agua fría ½" x 6m',cat:'Plomería',emoji:'🚿',price:4.80},
+  {id:26,name:'Cemento Cessa 42.5 kg',cat:'Construcción',emoji:'🏗️',price:8.50},
+  {id:27,name:'Bloque de concreto 20×40×20 cm',cat:'Construcción',emoji:'🧱',price:0.45},
+  {id:33,name:'Tensor galvanizado 3/16"',cat:'Fijaciones',emoji:'🔩',price:0.75},
+  {id:38,name:'Tabla pino 1×6×8 pies',cat:'Madera',emoji:'🪵',price:9.50},
+];
+
+function focusSearch() { document.getElementById('navSearchInput').focus(); }
+function expandSearch() {
+  document.getElementById('searchPill').classList.add('expanded');
+}
+function collapseSearch() {
+  setTimeout(() => {
+    document.getElementById('searchPill').classList.remove('expanded');
+    document.getElementById('searchDropdown').classList.remove('show');
+  }, 200);
+}
+function handleSearch(val) {
+  const drop = document.getElementById('searchDropdown');
+  if (!val.trim()) { drop.classList.remove('show'); return; }
+  const results = QUICK_PRODUCTS.filter(p =>
+    p.name.toLowerCase().includes(val.toLowerCase()) ||
+    p.cat.toLowerCase().includes(val.toLowerCase())
+  ).slice(0, 5);
+  if (results.length === 0) { drop.classList.remove('show'); return; }
+  drop.innerHTML = results.map(p => `
+    <a class="search-item" href="${p.id === 1 ? 'lemus-producto.html' : 'lemus-catalogo.html?q=' + encodeURIComponent(p.name)}">
+      <span class="search-item-emoji">${p.emoji}</span>
+      <div><div class="search-item-name">${p.name}</div><div class="search-item-cat">${p.cat}</div></div>
+      <span class="search-item-price">$${p.price.toFixed(2)}</span>
+    </a>`).join('') +
+    `<div class="search-footer" onclick="goSearch('${val.replace(/'/g,"\'")}')">
+      <div class="search-footer-text">Ver todos los resultados de "<strong>${val}</strong>" →</div>
+    </div>`;
+  drop.classList.add('show');
+}
+function handleSearchKey(e) {
+  if (e.key === 'Enter') {
+    const val = document.getElementById('navSearchInput').value.trim();
+    if (val) goSearch(val);
+  }
+}
+function goSearch(query) {
+  window.location.href = 'lemus-catalogo.html?q=' + encodeURIComponent(query);
+}
+
+</script>

@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taladro percutor 650W — Lemus</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#0D2C5E;--blue-mid:#1A3F7A;--blue-light:#2756A8;
+  --orange:#E8500A;--orange-light:#FF6B2B;
+  --cream:#F4F1EB;--cream-dark:#EAE6DE;
+  --white:#fff;--gray:#8A8A8A;--gray-light:#E8E4DC;
+  --text:#111;--text-muted:#666;--green:#16a34a;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden}
+
+/* TOPBAR */
+.topbar{background:var(--blue);padding:7px 2rem;display:flex;justify-content:space-between;align-items:center;font-size:11px}
+.topbar-left{color:rgba(255,255,255,.5);display:flex;align-items:center;gap:5px}
+.topbar-left strong{color:var(--orange-light);font-weight:500}
+.topbar-right{display:flex;gap:20px}
+.topbar-right a{color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s}
+.topbar-right a:hover{color:rgba(255,255,255,.85)}
+
+/* NAV */
+nav{background:rgba(244,241,235,.95);backdrop-filter:blur(20px);padding:0 2rem;height:68px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(13,44,94,.07);position:sticky;top:0;z-index:200;box-shadow:0 2px 20px rgba(13,44,94,.06)}
+.logo-mark{display:flex;align-items:baseline;gap:2px;text-decoration:none}
+.l-text{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--blue);letter-spacing:-1.5px;line-height:1}
+.l-text em{font-style:normal;color:var(--orange)}
+.l-tag{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gray);margin-left:4px;font-family:'DM Sans',sans-serif;align-self:flex-end;margin-bottom:3px}
+.nav-pills{display:flex;gap:4px;background:rgba(13,44,94,.06);padding:4px;border-radius:40px}
+.nav-pill{font-size:12.5px;font-weight:500;font-family:'DM Sans',sans-serif;color:var(--text-muted);text-decoration:none;padding:7px 16px;border-radius:30px;transition:all .2s var(--ease);white-space:nowrap}
+.nav-pill:hover{color:var(--blue);background:rgba(13,44,94,.06)}
+.nav-pill.active{background:var(--blue);color:white;box-shadow:0 2px 12px rgba(13,44,94,.25)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.nav-cart{display:flex;align-items:center;gap:8px;background:var(--blue);color:white;border:none;padding:8px 18px;border-radius:30px;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .2s var(--ease);text-decoration:none}
+.nav-cart:hover{background:var(--blue-light);transform:translateY(-1px)}
+.cart-dot{width:18px;height:18px;background:var(--orange);border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
+
+/* BREADCRUMB */
+.breadcrumb-bar{padding:14px 2rem;display:flex;align-items:center;gap:6px;font-size:11px;color:var(--gray);background:white;border-bottom:1px solid rgba(13,44,94,.06)}
+.breadcrumb-bar a{color:var(--gray);text-decoration:none;transition:color .2s}
+.breadcrumb-bar a:hover{color:var(--blue)}
+.breadcrumb-bar span{color:var(--text);font-weight:500}
+.bc-sep{color:var(--gray-light)}
+
+/* MAIN PRODUCT LAYOUT */
+.product-layout{display:grid;grid-template-columns:1fr 480px;gap:48px;padding:40px 2rem 60px;max-width:1280px;margin:0 auto;align-items:start}
+
+/* ===== LEFT: GALLERY ===== */
+.gallery{position:sticky;top:88px}
+.gallery-main{
+  background:white;
+  border-radius:20px;
+  border:1.5px solid rgba(13,44,94,.07);
+  aspect-ratio:1;
+  display:flex;align-items:center;justify-content:center;
+  font-size:160px;
+  margin-bottom:12px;
+  overflow:hidden;
+  position:relative;
+  cursor:zoom-in;
+}
+.gallery-main::before{
+  content:'';
+  position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(13,44,94,.05) 1px,transparent 1px);
+  background-size:22px 22px;
+}
+.gallery-emoji{position:relative;z-index:1;animation:galFloat 5s ease-in-out infinite;filter:drop-shadow(0 20px 40px rgba(13,44,94,.15))}
+@keyframes galFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-12px) scale(1.03)}}
+.gallery-badge{position:absolute;top:16px;left:16px;z-index:2;display:flex;gap:6px}
+.g-badge{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:4px 10px;border-radius:20px;font-family:'DM Sans',sans-serif}
+.g-badge-top{background:var(--blue);color:white}
+.g-badge-offer{background:var(--orange);color:white}
+.gallery-thumbs{display:flex;gap:8px}
+.g-thumb{
+  flex:1;aspect-ratio:1;
+  background:white;border-radius:12px;
+  border:2px solid transparent;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;cursor:pointer;
+  transition:all .2s var(--ease);
+  box-shadow:0 2px 8px rgba(13,44,94,.06);
+}
+.g-thumb:hover{border-color:rgba(13,44,94,.2);transform:translateY(-2px)}
+.g-thumb.active{border-color:var(--blue);box-shadow:0 4px 16px rgba(13,44,94,.15)}
+
+/* ===== RIGHT: PRODUCT INFO ===== */
+.product-info{display:flex;flex-direction:column;gap:0}
+
+.pi-cat{font-size:10px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:1.5px;font-family:'DM Sans',sans-serif;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.pi-cat-link{color:var(--orange);text-decoration:none;transition:opacity .2s}
+.pi-cat-link:hover{opacity:.7}
+
+.pi-name{font-family:'Syne',sans-serif;font-size:clamp(24px,3vw,36px);font-weight:800;color:var(--blue);letter-spacing:-1px;line-height:1.1;margin-bottom:12px}
+
+.pi-sku-row{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid rgba(13,44,94,.07)}
+.pi-sku{font-size:11px;color:var(--gray);font-family:'DM Sans',sans-serif}
+.pi-rating{display:flex;align-items:center;gap:4px}
+.stars{color:#f59e0b;font-size:13px;letter-spacing:1px}
+.rating-num{font-size:12px;color:var(--gray);font-family:'DM Sans',sans-serif}
+.pi-reviews{font-size:12px;color:var(--blue);font-family:'DM Sans',sans-serif;text-decoration:none;border-bottom:1px solid rgba(13,44,94,.2)}
+
+/* Price block */
+.pi-price-block{margin-bottom:20px}
+.pi-price-main{display:flex;align-items:flex-end;gap:12px;margin-bottom:4px}
+.pi-price{font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:var(--orange);line-height:1}
+.pi-price sup{font-size:22px;vertical-align:super}
+.pi-price-orig{font-size:18px;color:var(--gray);text-decoration:line-through;font-family:'DM Sans',sans-serif;margin-bottom:6px}
+.pi-discount{display:inline-flex;align-items:center;gap:5px;background:rgba(232,80,10,.1);color:var(--orange);font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;font-family:'DM Sans',sans-serif}
+.pi-iva{font-size:11px;color:var(--gray);font-family:'DM Sans',sans-serif;margin-top:4px}
+
+/* Stock */
+.pi-stock-row{display:flex;align-items:center;gap:10px;margin-bottom:24px;padding:12px 16px;background:rgba(22,163,74,.06);border-radius:10px;border:1px solid rgba(22,163,74,.15)}
+.stock-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;animation:stockPulse 2s ease-in-out infinite}
+@keyframes stockPulse{0%,100%{box-shadow:0 0 0 0 rgba(22,163,74,.4)}70%{box-shadow:0 0 0 6px rgba(22,163,74,0)}}
+.stock-text{font-size:13px;color:var(--green);font-weight:600;font-family:'DM Sans',sans-serif}
+.stock-sub{font-size:11px;color:var(--gray);font-family:'DM Sans',sans-serif;margin-left:auto}
+
+/* Variants */
+.pi-section-label{font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;font-family:'DM Sans',sans-serif;margin-bottom:10px}
+.pi-variants{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.variant-btn{padding:8px 16px;border:1.5px solid rgba(13,44,94,.12);border-radius:8px;font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;color:var(--text-muted);cursor:pointer;background:white;transition:all .15s}
+.variant-btn:hover{border-color:var(--blue);color:var(--blue)}
+.variant-btn.active{border-color:var(--blue);background:rgba(13,44,94,.05);color:var(--blue);font-weight:600}
+
+/* Qty + CTA */
+.pi-qty-row{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.qty-label{font-size:12px;color:var(--gray);font-family:'DM Sans',sans-serif;white-space:nowrap}
+.qty-ctrl{display:flex;align-items:center;border:1.5px solid rgba(13,44,94,.12);border-radius:10px;overflow:hidden}
+.qty-btn{width:38px;height:38px;background:var(--cream);border:none;cursor:pointer;font-size:18px;color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:300;transition:background .15s;flex-shrink:0}
+.qty-btn:hover{background:var(--cream-dark)}
+.qty-val{width:44px;height:38px;text-align:center;border:none;border-left:1.5px solid rgba(13,44,94,.12);border-right:1.5px solid rgba(13,44,94,.12);font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;color:var(--blue);background:white;outline:none}
+
+.pi-cta{display:flex;gap:10px;margin-bottom:20px}
+.btn-add-cart{
+  flex:1;background:var(--orange);color:white;border:none;
+  padding:16px 24px;border-radius:12px;
+  font-size:15px;font-weight:700;font-family:'DM Sans',sans-serif;
+  cursor:pointer;transition:all .25s var(--ease);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.btn-add-cart:hover{background:var(--orange-light);transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,80,10,.35)}
+.btn-add-cart svg{width:18px;height:18px;fill:white}
+.btn-add-cart.added{background:var(--green)}
+.btn-wishlist{
+  width:52px;height:52px;border:1.5px solid rgba(13,44,94,.12);
+  background:white;border-radius:12px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;flex-shrink:0;
+}
+.btn-wishlist:hover{border-color:var(--orange)}
+.btn-wishlist svg{width:20px;height:20px;fill:none;stroke:var(--gray);stroke-width:1.5;transition:all .15s}
+.btn-wishlist.active svg{fill:var(--orange);stroke:var(--orange)}
+
+.btn-cotizar{
+  width:100%;background:transparent;color:var(--blue);
+  border:1.5px solid rgba(13,44,94,.15);
+  padding:13px 24px;border-radius:12px;
+  font-size:14px;font-weight:500;font-family:'DM Sans',sans-serif;
+  cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-bottom:24px;
+}
+.btn-cotizar:hover{border-color:var(--blue);background:rgba(13,44,94,.03)}
+.btn-cotizar svg{width:16px;height:16px;fill:var(--blue)}
+
+/* Trust badges */
+.trust-row{display:flex;gap:0;border:1.5px solid rgba(13,44,94,.07);border-radius:12px;overflow:hidden;margin-bottom:28px}
+.trust-item{flex:1;padding:12px;display:flex;flex-direction:column;align-items:center;gap:5px;border-right:1px solid rgba(13,44,94,.07);text-align:center}
+.trust-item:last-child{border-right:none}
+.trust-item svg{width:18px;height:18px;fill:var(--blue)}
+.trust-label{font-size:10px;font-weight:600;color:var(--blue);font-family:'DM Sans',sans-serif;line-height:1.2}
+.trust-sub{font-size:9px;color:var(--gray);font-family:'DM Sans',sans-serif}
+
+/* Delivery info */
+.delivery-info{background:white;border-radius:12px;border:1.5px solid rgba(13,44,94,.07);padding:16px;margin-bottom:28px}
+.dlv-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(13,44,94,.05)}
+.dlv-row:last-child{border-bottom:none;padding-bottom:0}
+.dlv-row:first-child{padding-top:0}
+.dlv-icon{width:32px;height:32px;background:rgba(13,44,94,.05);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dlv-icon svg{width:16px;height:16px;fill:var(--blue)}
+.dlv-text-title{font-size:12px;font-weight:600;color:var(--text);font-family:'DM Sans',sans-serif}
+.dlv-text-sub{font-size:11px;color:var(--gray);font-family:'DM Sans',sans-serif}
+.dlv-price{margin-left:auto;font-size:12px;font-weight:600;color:var(--green);font-family:'DM Sans',sans-serif}
+
+/* ===== TABS SECTION ===== */
+.product-tabs{padding:0 2rem 60px;max-width:1280px;margin:0 auto}
+.tabs-nav{display:flex;gap:0;border-bottom:2px solid rgba(13,44,94,.08);margin-bottom:32px}
+.tab-btn{padding:14px 24px;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;color:var(--text-muted);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s}
+.tab-btn:hover{color:var(--blue)}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--orange);font-weight:600}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* Specs table */
+.specs-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1.5px solid rgba(13,44,94,.07);border-radius:14px;overflow:hidden;background:white}
+.spec-row{display:grid;grid-template-columns:200px 1fr;border-bottom:1px solid rgba(13,44,94,.06)}
+.spec-row:last-child{border-bottom:none}
+.spec-key{padding:14px 18px;font-size:13px;color:var(--text-muted);font-family:'DM Sans',sans-serif;background:rgba(13,44,94,.02);border-right:1px solid rgba(13,44,94,.06)}
+.spec-val{padding:14px 18px;font-size:13px;font-weight:500;color:var(--text);font-family:'DM Sans',sans-serif}
+
+/* Description */
+.product-desc{background:white;border-radius:14px;border:1.5px solid rgba(13,44,94,.07);padding:28px;line-height:1.8;font-size:14px;color:var(--text-muted);font-family:'DM Sans',sans-serif}
+.product-desc h4{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--blue);margin-bottom:12px;margin-top:20px}
+.product-desc h4:first-child{margin-top:0}
+.product-desc ul{padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.product-desc li{font-size:13px}
+
+/* Reviews */
+.reviews-summary{display:grid;grid-template-columns:180px 1fr;gap:32px;background:white;border-radius:14px;border:1.5px solid rgba(13,44,94,.07);padding:28px;margin-bottom:16px;align-items:center}
+.rs-score{text-align:center}
+.rs-num{font-family:'Syne',sans-serif;font-size:64px;font-weight:800;color:var(--blue);line-height:1}
+.rs-stars{color:#f59e0b;font-size:20px;letter-spacing:2px;margin:4px 0}
+.rs-count{font-size:12px;color:var(--gray);font-family:'DM Sans',sans-serif}
+.rs-bars{display:flex;flex-direction:column;gap:8px}
+.rs-bar-row{display:flex;align-items:center;gap:10px;font-size:12px;font-family:'DM Sans',sans-serif}
+.rs-bar-label{color:var(--gray);width:40px;text-align:right}
+.rs-bar-track{flex:1;height:6px;background:var(--cream-dark);border-radius:3px;overflow:hidden}
+.rs-bar-fill{height:100%;background:var(--orange);border-radius:3px;transition:width .6s var(--ease)}
+.rs-bar-pct{color:var(--gray);width:32px}
+
+.review-card{background:white;border-radius:14px;border:1.5px solid rgba(13,44,94,.07);padding:20px;margin-bottom:12px}
+.rc-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.rc-avatar{width:36px;height:36px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:white;font-weight:600;font-family:'Syne',sans-serif;flex-shrink:0}
+.rc-name{font-size:13px;font-weight:600;color:var(--text);font-family:'DM Sans',sans-serif}
+.rc-date{font-size:11px;color:var(--gray);font-family:'DM Sans',sans-serif}
+.rc-stars{color:#f59e0b;font-size:12px;letter-spacing:1px;margin-top:1px}
+.rc-badge{margin-left:auto;font-size:10px;background:rgba(22,163,74,.08);color:var(--green);padding:2px 8px;border-radius:10px;font-weight:500;font-family:'DM Sans',sans-serif}
+.rc-text{font-size:13px;color:var(--text-muted);font-family:'DM Sans',sans-serif;line-height:1.6}
+
+/* ===== RELATED PRODUCTS ===== */
+.related-section{padding:0 2rem 60px;max-width:1280px;margin:0 auto}
+.section-eyebrow{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--orange);font-family:'DM Sans',sans-serif;margin-bottom:10px}
+.section-heading{font-family:'Syne',sans-serif;font-size:clamp(24px,3vw,36px);font-weight:800;color:var(--blue);letter-spacing:-1px;line-height:1.05;margin-bottom:28px}
+.section-heading em{font-style:normal;color:var(--orange)}
+.related-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.related-card{background:white;border-radius:14px;border:1.5px solid rgba(13,44,94,.07);overflow:hidden;cursor:pointer;transition:all .25s var(--ease);text-decoration:none;color:inherit;display:block}
+.related-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(13,44,94,.1);border-color:rgba(13,44,94,.14)}
+.rc-img{aspect-ratio:1;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:48px;border-bottom:1px solid rgba(0,0,0,.05);transition:transform .3s}
+.related-card:hover .rc-img{transform:scale(1.04)}
+.rc-body{padding:14px 16px}
+.rc-cat{font-size:10px;color:var(--orange);text-transform:uppercase;letter-spacing:.8px;font-weight:600;font-family:'DM Sans',sans-serif;margin-bottom:3px}
+.rc-name{font-size:13px;font-weight:500;color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.35;margin-bottom:8px}
+.rc-price{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--orange)}
+.rc-price sup{font-size:11px;vertical-align:super}
+
+/* FOOTER */
+footer{background:var(--blue);padding:48px 2rem 24px}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:20px}
+.footer-logo{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:white;letter-spacing:-1px}
+.footer-logo em{font-style:normal;color:var(--orange)}
+.footer-tagline{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin:6px 0 14px;font-family:'DM Sans',sans-serif}
+.footer-about{font-size:13px;line-height:1.7;color:rgba(255,255,255,.4);font-family:'DM Sans',sans-serif;max-width:240px}
+.footer-col-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:white;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:9px}
+.footer-links a{color:rgba(255,255,255,.4);text-decoration:none;font-size:13px;font-family:'DM Sans',sans-serif;transition:color .2s}
+.footer-links a:hover{color:white}
+.footer-bottom{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.25);font-family:'DM Sans',sans-serif}
+
+/* Reveal animation */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ===== EXPANDING SEARCH ===== */
+.nav-search-wrap { position: relative; }
+.nav-search-pill {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(13,44,94,.06); border: 1.5px solid transparent;
+  border-radius: 30px; padding: 8px 16px;
+  font-size: 13px; font-family: 'DM Sans', sans-serif;
+  color: var(--text-muted); cursor: text;
+  transition: all .2s; width: 180px;
+}
+.nav-search-pill.expanded {
+  width: 300px; background: white;
+  border-color: rgba(13,44,94,.2);
+  box-shadow: 0 4px 16px rgba(13,44,94,.1);
+}
+.nav-search-pill input {
+  border: none; background: transparent; outline: none;
+  font-size: 13px; font-family: 'DM Sans', sans-serif;
+  color: var(--text); width: 100%; min-width: 0;
+}
+.nav-search-pill input::placeholder { color: var(--text-muted); }
+.nav-search-pill svg { width: 15px; height: 15px; fill: var(--gray); flex-shrink: 0; }
+.search-dropdown {
+  position: absolute; top: calc(100% + 8px); left: 0; right: 0;
+  background: white; border-radius: 12px;
+  border: 1.5px solid rgba(13,44,94,.1);
+  box-shadow: 0 8px 28px rgba(13,44,94,.12);
+  overflow: hidden; display: none; z-index: 300;
+}
+.search-dropdown.show { display: block; }
+.search-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 16px; cursor: pointer;
+  transition: background .15s; text-decoration: none; color: inherit;
+}
+.search-item:hover { background: rgba(13,44,94,.04); }
+.search-item-emoji { font-size: 20px; width: 32px; text-align: center; flex-shrink: 0; }
+.search-item-name { font-size: 13px; font-weight: 500; color: var(--text); font-family: 'DM Sans', sans-serif; }
+.search-item-cat { font-size: 11px; color: var(--gray); font-family: 'DM Sans', sans-serif; }
+.search-item-price { margin-left: auto; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--orange); flex-shrink: 0; }
+.search-footer { padding: 10px 16px; border-top: 1px solid rgba(13,44,94,.06); background: rgba(13,44,94,.02); cursor: pointer; }
+.search-footer-text { font-size: 12px; color: var(--blue); font-family: 'DM Sans', sans-serif; font-weight: 500; }
+
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="rgba(255,255,255,.4)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+    Sucursal activa: <strong>Constru Merliot</strong>
+  </div>
+  <div class="topbar-right">
+    <a href="#">Regístrate</a><a href="#">Acceder</a><a href="#">Carretilla</a>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="lemus-v2.html" class="logo-mark">
+    <div class="l-text">lem<em>u</em>s</div>
+    <span class="l-tag">Más que construcción</span>
+  </a>
+  <div class="nav-pills">
+    <a href="lemus-v2.html" class="nav-pill">Inicio</a>
+    <a href="lemus-catalogo.html" class="nav-pill active">Catálogo</a>
+    <a href="lemus-sucursales.html" class="nav-pill">Sucursales</a>
+    <a href="#" class="nav-pill">Blog</a>
+    <a href="#" class="nav-pill">Asistente IA</a>
+  </div>
+  <div class="nav-right">
+    <a href="lemus-carrito.html" class="nav-cart" style="text-decoration:none">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.1 17 7.2 17H19v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H15c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 19.5 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+      Carrito <span class="cart-dot" id="cartCount">0</span>
+    </a>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-bar">
+  <a href="lemus-v2.html">Inicio</a>
+  <span class="bc-sep">›</span>
+  <a href="lemus-catalogo.html">Catálogo</a>
+  <span class="bc-sep">›</span>
+  <a href="lemus-catalogo.html">Herramientas</a>
+  <span class="bc-sep">›</span>
+  <span>Taladro percutor 650W</span>
+</div>
+
+<!-- PRODUCT LAYOUT -->
+<div class="product-layout">
+
+  <!-- GALLERY -->
+  <div class="gallery">
+    <div class="gallery-main">
+      <div class="gallery-badge">
+        <span class="g-badge g-badge-top">Top ventas</span>
+      </div>
+      <span class="gallery-emoji" id="mainEmoji">🔧</span>
+    </div>
+    <div class="gallery-thumbs">
+      <div class="g-thumb active" onclick="selectThumb(this,'🔧')">🔧</div>
+      <div class="g-thumb" onclick="selectThumb(this,'⚙️')">⚙️</div>
+      <div class="g-thumb" onclick="selectThumb(this,'🔩')">🔩</div>
+      <div class="g-thumb" onclick="selectThumb(this,'📦')">📦</div>
+    </div>
+  </div>
+
+  <!-- PRODUCT INFO -->
+  <div class="product-info">
+    <div class="pi-cat">
+      <a href="lemus-catalogo.html" class="pi-cat-link">🔧 Herramientas</a>
+      <span style="color:var(--gray-light)">›</span>
+      <span>Taladros</span>
+    </div>
+
+    <h1 class="pi-name">Taladro percutor 650W Total Tools</h1>
+
+    <div class="pi-sku-row">
+      <span class="pi-sku">SKU: 331045</span>
+      <div class="pi-rating">
+        <span class="stars">★★★★★</span>
+        <span class="rating-num">4.8</span>
+      </div>
+      <a href="#reviews" class="pi-reviews">48 reseñas</a>
+    </div>
+
+    <div class="pi-price-block">
+      <div class="pi-price-main">
+        <div class="pi-price"><sup>$</sup>89<sup style="font-size:16px">.00</sup></div>
+      </div>
+      <div class="pi-iva">Precio incluye IVA (13%)</div>
+    </div>
+
+    <div class="pi-stock-row">
+      <div class="stock-dot"></div>
+      <span class="stock-text">En existencia</span>
+      <span class="stock-sub">+50 unidades disponibles</span>
+    </div>
+
+    <div class="pi-section-label">Voltaje</div>
+    <div class="pi-variants" style="margin-bottom:24px">
+      <button class="variant-btn active">110V</button>
+      <button class="variant-btn">220V</button>
+    </div>
+
+    <div class="pi-qty-row">
+      <span class="qty-label">Cantidad</span>
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <input type="number" class="qty-val" id="qtyInput" value="1" min="1" max="99">
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
+      </div>
+    </div>
+
+    <div class="pi-cta">
+      <button class="btn-add-cart" id="addCartBtn" onclick="addToCart()">
+        <svg viewBox="0 0 24 24"><path d="M11 9h2V6h3V4h-3V1h-2v3H8v2h3v3zm-4 9c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zm-8.9-5h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 19.5 4H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.45C5.16 14.28 5 14.61 5 15c0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25z"/></svg>
+        Agregar al carrito
+      </button>
+      <button class="btn-wishlist" id="wishBtn" onclick="toggleWish()" title="Guardar">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </button>
+    </div>
+
+    <button class="btn-cotizar" onclick="window.location='lemus-v2.html'">
+      <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+      Cotizar proyecto completo con IA
+    </button>
+
+    <div class="trust-row">
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+        <span class="trust-label">Garantía</span>
+        <span class="trust-sub">12 meses</span>
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zm-.5 1.5l1.96 2.5H17V9.5h2.5z"/></svg>
+        <span class="trust-label">Envío</span>
+        <span class="trust-sub">Todo El Salvador</span>
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
+        <span class="trust-label">Asesoría</span>
+        <span class="trust-sub">Expertos</span>
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+        <span class="trust-label">Original</span>
+        <span class="trust-sub">Certificado</span>
+      </div>
+    </div>
+
+    <div class="delivery-info">
+      <div class="dlv-row">
+        <div class="dlv-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+        <div><div class="dlv-text-title">Recoger en sucursal</div><div class="dlv-text-sub">Listo en 2 horas · 15+ sucursales</div></div>
+        <div class="dlv-price">Gratis</div>
+      </div>
+      <div class="dlv-row">
+        <div class="dlv-icon"><svg viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4z"/></svg></div>
+        <div><div class="dlv-text-title">Envío express</div><div class="dlv-text-sub">Hoy antes de las 6pm · Área metro</div></div>
+        <div class="dlv-price" style="color:var(--blue)">$8.50</div>
+      </div>
+      <div class="dlv-row">
+        <div class="dlv-icon"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg></div>
+        <div><div class="dlv-text-title">Envío estándar</div><div class="dlv-text-sub">1–3 días hábiles · Todo El Salvador</div></div>
+        <div class="dlv-price" style="color:var(--blue)">$4.50</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="product-tabs">
+  <div class="tabs-nav">
+    <button class="tab-btn active" onclick="switchTab(this,'desc')">Descripción</button>
+    <button class="tab-btn" onclick="switchTab(this,'specs')">Especificaciones</button>
+    <button class="tab-btn" onclick="switchTab(this,'reviews')">Reseñas (48)</button>
+  </div>
+
+  <div class="tab-panel active" id="tab-desc">
+    <div class="product-desc">
+      <h4>Descripción del producto</h4>
+      <p>El Taladro Percutor 650W de Total Tools es la herramienta ideal para profesionales y aficionados que buscan potencia y versatilidad. Con su motor de 650W ofrece el torque necesario para taladrar en madera, metal, concreto y mampostería con igual eficiencia.</p>
+      <h4>Características principales</h4>
+      <ul>
+        <li>Motor de 650W de alta eficiencia energética</li>
+        <li>Función percutora para concreto y mampostería</li>
+        <li>Velocidad variable 0–2,800 RPM para control preciso</li>
+        <li>Chuck de 13mm con llave para brocas de uso pesado</li>
+        <li>Empuñadura ergonómica antideslizante</li>
+        <li>Selector de dirección reversible</li>
+        <li>Cable de 2.5 metros con enchufe NEMA estándar</li>
+        <li>Incluye llave para chuck y broca de 6mm</li>
+      </ul>
+      <h4>Aplicaciones</h4>
+      <p>Perfecto para instalaciones eléctricas, carpintería, construcción general, colocación de anclas y tornillos, perforación de cerámica con broca adecuada y trabajos de albañilería.</p>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-specs">
+    <div class="specs-grid">
+      <div class="spec-row"><div class="spec-key">Potencia</div><div class="spec-val">650W</div></div>
+      <div class="spec-row"><div class="spec-key">Velocidad (sin carga)</div><div class="spec-val">0 – 2,800 RPM</div></div>
+      <div class="spec-row"><div class="spec-key">Capacidad en concreto</div><div class="spec-val">20mm</div></div>
+      <div class="spec-row"><div class="spec-key">Capacidad en acero</div><div class="spec-val">13mm</div></div>
+      <div class="spec-row"><div class="spec-key">Capacidad en madera</div><div class="spec-val">30mm</div></div>
+      <div class="spec-row"><div class="spec-key">Tamaño de chuck</div><div class="spec-val">13mm con llave</div></div>
+      <div class="spec-row"><div class="spec-key">Voltaje</div><div class="spec-val">110V / 60Hz</div></div>
+      <div class="spec-row"><div class="spec-key">Longitud del cable</div><div class="spec-val">2.5 metros</div></div>
+      <div class="spec-row"><div class="spec-key">Peso</div><div class="spec-val">1.8 kg</div></div>
+      <div class="spec-row"><div class="spec-key">Garantía</div><div class="spec-val">12 meses</div></div>
+      <div class="spec-row"><div class="spec-key">Marca</div><div class="spec-val">Total Tools</div></div>
+      <div class="spec-row"><div class="spec-key">SKU</div><div class="spec-val">331045</div></div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-reviews" id="reviews">
+    <div class="reviews-summary reveal">
+      <div class="rs-score">
+        <div class="rs-num">4.8</div>
+        <div class="rs-stars">★★★★★</div>
+        <div class="rs-count">48 reseñas</div>
+      </div>
+      <div class="rs-bars">
+        <div class="rs-bar-row"><span class="rs-bar-label">5 ★</span><div class="rs-bar-track"><div class="rs-bar-fill" style="width:78%"></div></div><span class="rs-bar-pct">78%</span></div>
+        <div class="rs-bar-row"><span class="rs-bar-label">4 ★</span><div class="rs-bar-track"><div class="rs-bar-fill" style="width:14%"></div></div><span class="rs-bar-pct">14%</span></div>
+        <div class="rs-bar-row"><span class="rs-bar-label">3 ★</span><div class="rs-bar-track"><div class="rs-bar-fill" style="width:6%"></div></div><span class="rs-bar-pct">6%</span></div>
+        <div class="rs-bar-row"><span class="rs-bar-label">2 ★</span><div class="rs-bar-track"><div class="rs-bar-fill" style="width:2%"></div></div><span class="rs-bar-pct">2%</span></div>
+        <div class="rs-bar-row"><span class="rs-bar-label">1 ★</span><div class="rs-bar-track"><div class="rs-bar-fill" style="width:0%"></div></div><span class="rs-bar-pct">0%</span></div>
+      </div>
+    </div>
+    <div class="review-card reveal">
+      <div class="rc-header">
+        <div class="rc-avatar">JG</div>
+        <div><div class="rc-name">José García</div><div class="rc-date">15 mayo 2025</div><div class="rc-stars">★★★★★</div></div>
+        <span class="rc-badge">Compra verificada</span>
+      </div>
+      <div class="rc-text">Excelente taladro, lo compré para un proyecto de remodelación y cumplió perfectamente. Perfora concreto sin problema y la velocidad variable es muy útil. Lo recomiendo totalmente.</div>
+    </div>
+    <div class="review-card reveal">
+      <div class="rc-header">
+        <div class="rc-avatar">MR</div>
+        <div><div class="rc-name">María Rodríguez</div><div class="rc-date">3 abril 2025</div><div class="rc-stars">★★★★★</div></div>
+        <span class="rc-badge">Compra verificada</span>
+      </div>
+      <div class="rc-text">Muy buena herramienta por el precio. La usé para instalar gabinetes y funcionó perfecto. Llegó rápido a la sucursal de Merliot y el precio fue muy accesible.</div>
+    </div>
+    <div class="review-card reveal">
+      <div class="rc-header">
+        <div class="rc-avatar">CA</div>
+        <div><div class="rc-name">Carlos Ayala</div><div class="rc-date">18 marzo 2025</div><div class="rc-stars">★★★★☆</div></div>
+        <span class="rc-badge">Compra verificada</span>
+      </div>
+      <div class="rc-text">Buen taladro en general. Le bajo una estrella porque el cable me pareció un poco corto para ciertos trabajos, pero el rendimiento es muy bueno. Ya lo he usado varias veces en obra.</div>
+    </div>
+  </div>
+</div>
+
+<!-- RELATED -->
+<div class="related-section">
+  <div class="section-eyebrow">También te puede interesar</div>
+  <div class="section-heading">Productos <em>relacionados</em></div>
+  <div class="related-grid">
+    <a href="lemus-producto.html" class="related-card reveal">
+      <div class="rc-img">⚙️</div>
+      <div class="rc-body"><div class="rc-cat">Herramientas</div><div class="rc-name">Esmeriladora angular 4½" 750W</div><div class="rc-price"><sup>$</sup>64.50</div></div>
+    </a>
+    <a href="lemus-producto.html" class="related-card reveal" style="transition-delay:.08s">
+      <div class="rc-img">🪚</div>
+      <div class="rc-body"><div class="rc-cat">Herramientas</div><div class="rc-name">Sierra circular 7¼" 1400W</div><div class="rc-price"><sup>$</sup>112.00</div></div>
+    </a>
+    <a href="lemus-producto.html" class="related-card reveal" style="transition-delay:.16s">
+      <div class="rc-img">🪛</div>
+      <div class="rc-body"><div class="rc-cat">Herramientas</div><div class="rc-name">Juego destornilladores 8 pzas</div><div class="rc-price"><sup>$</sup>22.00</div></div>
+    </a>
+    <a href="lemus-producto.html" class="related-card reveal" style="transition-delay:.24s">
+      <div class="rc-img">📐</div>
+      <div class="rc-body"><div class="rc-cat">Herramientas</div><div class="rc-name">Nivel láser 3 líneas autonivelante</div><div class="rc-price"><sup>$</sup>145.00</div></div>
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">lem<em>u</em>s</div>
+      <div class="footer-tagline">Más que construcción</div>
+      <p class="footer-about">Más de 30 años siendo la ferretería de confianza de El Salvador.</p>
+    </div>
+    <div><div class="footer-col-title">Navegación</div><ul class="footer-links"><li><a href="lemus-v2.html">Inicio</a></li><li><a href="lemus-catalogo.html">Catálogo</a></li><li><a href="lemus-sucursales.html">Sucursales</a></li></ul></div>
+    <div><div class="footer-col-title">Información</div><ul class="footer-links"><li><a href="#">Garantías</a></li><li><a href="#">Devoluciones</a></li><li><a href="#">FAQ</a></li></ul></div>
+    <div><div class="footer-col-title">Contacto</div><ul class="footer-links"><li><a href="#">+(503) 2264-0000</a></li><li><a href="#">info@lemus.com.sv</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2025 Lemus Ferretería.</span><span>Diseñado con ♥ en El Salvador</span></div>
+</footer>
+
+<script>
+// Cart badge
+(function(){
+  try{const c=JSON.parse(localStorage.getItem('lemus_cart')||'[]');const t=c.reduce((s,i)=>s+i.qty,0);const el=document.getElementById('cartCount');if(el&&t>0)el.textContent=t;}catch(e){}
+})();
+
+// Gallery
+function selectThumb(el, emoji) {
+  document.querySelectorAll('.g-thumb').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('mainEmoji').textContent = emoji;
+}
+
+// Qty
+function changeQty(delta) {
+  const inp = document.getElementById('qtyInput');
+  inp.value = Math.max(1, Math.min(99, parseInt(inp.value) + delta));
+}
+
+// Variants
+document.querySelectorAll('.variant-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.closest('.pi-variants').querySelectorAll('.variant-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+// Wishlist
+function toggleWish() {
+  document.getElementById('wishBtn').classList.toggle('active');
+}
+
+// Add to cart
+function addToCart() {
+  const qty = parseInt(document.getElementById('qtyInput').value) || 1;
+  try {
+    const cart = JSON.parse(localStorage.getItem('lemus_cart') || '[]');
+    const existing = cart.find(i => i.id === 1);
+    if (existing) { existing.qty += qty; }
+    else { cart.push({ id:1, name:'Taladro percutor 650W Total Tools', sku:'331045', cat:'Herramientas', emoji:'🔧', price:89.00, qty, stock:'in' }); }
+    localStorage.setItem('lemus_cart', JSON.stringify(cart));
+    const total = cart.reduce((s,i)=>s+i.qty,0);
+    document.getElementById('cartCount').textContent = total;
+  } catch(e){}
+
+  const btn = document.getElementById('addCartBtn');
+  btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> ¡Agregado!';
+  btn.classList.add('added');
+  setTimeout(() => {
+    btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M11 9h2V6h3V4h-3V1h-2v3H8v2h3v3zm-4 9c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zm-8.9-5h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 19.5 4H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.45C5.16 14.28 5 14.61 5 15c0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25z"/></svg> Agregar al carrito';
+    btn.classList.remove('added');
+  }, 2000);
+}
+
+// Tabs
+function switchTab(btn, tabId) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + tabId).classList.add('active');
+}
+
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);} });
+}, { threshold:0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
+<script>
+// ===== NAV SEARCH =====
+const QUICK_PRODUCTS = [
+  {id:1,name:'Taladro percutor 650W',cat:'Herramientas',emoji:'🔧',price:89.00},
+  {id:2,name:'Esmeriladora angular 4½" 750W',cat:'Herramientas',emoji:'⚙️',price:64.50},
+  {id:3,name:'Sierra circular 7¼" 1400W',cat:'Herramientas',emoji:'🪚',price:112.00},
+  {id:10,name:'Pintura látex interior blanco galón',cat:'Pintura',emoji:'🪣',price:28.00},
+  {id:11,name:'Impac impermeabilizante 3.78L',cat:'Pintura',emoji:'🎨',price:124.90},
+  {id:16,name:'Cable eléctrico THHN cal.12 AWG',cat:'Eléctrico',emoji:'⚡',price:18.50},
+  {id:18,name:'Breaker 1 polo 20A Square D',cat:'Eléctrico',emoji:'🔋',price:14.75},
+  {id:21,name:'Tubo PVC agua fría ½" x 6m',cat:'Plomería',emoji:'🚿',price:4.80},
+  {id:26,name:'Cemento Cessa 42.5 kg',cat:'Construcción',emoji:'🏗️',price:8.50},
+  {id:27,name:'Bloque de concreto 20×40×20 cm',cat:'Construcción',emoji:'🧱',price:0.45},
+  {id:33,name:'Tensor galvanizado 3/16"',cat:'Fijaciones',emoji:'🔩',price:0.75},
+  {id:38,name:'Tabla pino 1×6×8 pies',cat:'Madera',emoji:'🪵',price:9.50},
+];
+
+function focusSearch() { document.getElementById('navSearchInput').focus(); }
+function expandSearch() {
+  document.getElementById('searchPill').classList.add('expanded');
+}
+function collapseSearch() {
+  setTimeout(() => {
+    document.getElementById('searchPill').classList.remove('expanded');
+    document.getElementById('searchDropdown').classList.remove('show');
+  }, 200);
+}
+function handleSearch(val) {
+  const drop = document.getElementById('searchDropdown');
+  if (!val.trim()) { drop.classList.remove('show'); return; }
+  const results = QUICK_PRODUCTS.filter(p =>
+    p.name.toLowerCase().includes(val.toLowerCase()) ||
+    p.cat.toLowerCase().includes(val.toLowerCase())
+  ).slice(0, 5);
+  if (results.length === 0) { drop.classList.remove('show'); return; }
+  drop.innerHTML = results.map(p => `
+    <a class="search-item" href="${p.id === 1 ? 'lemus-producto.html' : 'lemus-catalogo.html?q=' + encodeURIComponent(p.name)}">
+      <span class="search-item-emoji">${p.emoji}</span>
+      <div><div class="search-item-name">${p.name}</div><div class="search-item-cat">${p.cat}</div></div>
+      <span class="search-item-price">$${p.price.toFixed(2)}</span>
+    </a>`).join('') +
+    `<div class="search-footer" onclick="goSearch('${val.replace(/'/g,"\'")}')">
+      <div class="search-footer-text">Ver todos los resultados de "<strong>${val}</strong>" →</div>
+    </div>`;
+  drop.classList.add('show');
+}
+function handleSearchKey(e) {
+  if (e.key === 'Enter') {
+    const val = document.getElementById('navSearchInput').value.trim();
+    if (val) goSearch(val);
+  }
+}
+function goSearch(query) {
+  window.location.href = 'lemus-catalogo.html?q=' + encodeURIComponent(query);
+}
+
+</script>
