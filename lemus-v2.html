@@ -1290,24 +1290,7 @@ footer {
 .search-item-price { margin-left: auto; font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: var(--orange); flex-shrink: 0; }
 .search-footer { padding: 10px 16px; border-top: 1px solid rgba(13,44,94,.06); background: rgba(13,44,94,.02); cursor: pointer; }
 .search-footer-text { font-size: 12px; color: var(--blue); font-family: 'Inter', sans-serif; font-weight: 500; }
-/* ===== LOADING SCREEN ===== */
-#loadScreen {
-  position: fixed; inset: 0; z-index: 9000;
-  background: #0D2C5E;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  transition: opacity .5s var(--ease), transform .5s var(--ease);
-}
-#loadScreen.hide { opacity: 0; pointer-events: none; transform: translateY(-8px); }
-#loadCanvas { display: block; }
-.load-sub {
-  font-family: 'Inter', sans-serif;
-  font-size: 11px;
-  color: rgba(255,255,255,0.4);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  margin-top: 20px;
-}
+/* loading screen removed */
 
 /* ===== NAVBAR CRANE ===== */
 .nav-crane-wrap {
@@ -1330,12 +1313,6 @@ footer {
   <div class="bg-orb bg-orb-1"></div>
   <div class="bg-orb bg-orb-2"></div>
   <div class="bg-orb bg-orb-3"></div>
-</div>
-
-<!-- LOADING SCREEN -->
-<div id="loadScreen">
-  <canvas id="loadCanvas" width="340" height="220"></canvas>
-  <div class="load-sub">construyendo tu experiencia...</div>
 </div>
 
 <!-- TOPBAR -->
@@ -1426,13 +1403,8 @@ footer {
 
     <!-- RIGHT: VISUAL + FLOATING CARDS -->
     <div class="hero-right">
-
-
-      <!-- Main product visual -->
-      <div class="hero-product">
-        <span class="product-tag">OFERTA</span>
-        <span class="product-emoji">🔩</span>
-      </div>
+      <!-- Animated crane -->
+      <canvas id="heroCrane" width="480" height="580" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
 
       <!-- Floating card 2: Product detail -->
       <div class="float-card-2">
@@ -1796,158 +1768,138 @@ document.addEventListener('click', e => {
   }
 });
 
-// ===== LOADING SCREEN =====
+// ===== HERO CRANE =====
 (function() {
-  const screen = document.getElementById('loadScreen');
-  const canvas = document.getElementById('loadCanvas');
-  if (!screen || !canvas) return;
-  const ctx = canvas.getContext('2d');
-  const W = 340, H = 220;
-  const letters = ['l','e','m','u','s'];
-  const blocks = []; // placed blocks
-  let t = 0;
-  let phase = 'dropping'; // dropping | placed | done
-  let currentLetter = 0;
-  let cableY = 0;
-  let raf;
-
-  // Block positions
-  const blockW = 44, blockH = 32;
-  const startX = 60;
-  const groundY = 170;
-  const blockTargets = letters.map((_, i) => ({ x: startX + i * (blockW + 6), y: groundY - blockH }));
-
-  function drawCrane(armX) {
-    // Tower
-    ctx.fillStyle = 'rgba(255,255,255,0.9)';
-    ctx.fillRect(armX + 10, 20, 10, H - 20);
-    // Arm
-    ctx.fillStyle = 'rgba(255,255,255,0.9)';
-    ctx.fillRect(startX - 10, 18, armX - startX + 20, 8);
-    // Counter arm + weight
-    ctx.fillStyle = 'rgba(255,255,255,0.6)';
-    ctx.fillRect(armX + 20, 18, 50, 8);
-    ctx.fillStyle = '#E8500A';
-    ctx.fillRect(armX + 52, 10, 26, 18);
-    // Stripes on tower
-    for (let i = 0; i < 5; i++) {
-      ctx.fillStyle = i % 2 === 0 ? '#E8500A' : 'rgba(255,255,255,0.0)';
-      ctx.fillRect(armX + 10, 30 + i * 28, 10, 14);
-    }
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-
-    const armX = 260;
-    const target = blockTargets[currentLetter];
-
-    drawCrane(armX);
-
-    // Draw placed blocks
-    blocks.forEach(b => {
-      ctx.fillStyle = '#1A3F7A';
-      ctx.fillRect(b.x, b.y, blockW, blockH);
-      ctx.fillStyle = 'white';
-      ctx.font = `bold 22px 'Syne', sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.fillText(b.letter, b.x + blockW / 2, b.y + blockH - 7);
-    });
-
-    if (phase === 'dropping' && currentLetter < 5) {
-      // Animate crane arm moving to target X
-      const pickX = target.x + blockW / 2;
-
-      // Cable
-      ctx.strokeStyle = 'rgba(255,255,255,0.5)';
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.moveTo(pickX, 26);
-      ctx.lineTo(pickX, 26 + cableY);
-      ctx.stroke();
-
-      // Falling block
-      const blockScreenY = 26 + cableY - blockH;
-      ctx.fillStyle = '#E8500A';
-      ctx.fillRect(pickX - blockW / 2, blockScreenY, blockW, blockH);
-      ctx.fillStyle = 'white';
-      ctx.font = `bold 22px 'Syne', sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.fillText(letters[currentLetter], pickX, blockScreenY + blockH - 7);
-
-      cableY += 2.2;
-
-      // When block reaches ground
-      if (blockScreenY >= target.y) {
-        blocks.push({ x: target.x, y: target.y, letter: letters[currentLetter] });
-        currentLetter++;
-        cableY = 0;
-        if (currentLetter >= 5) {
-          phase = 'done';
-          setTimeout(() => {
-            cancelAnimationFrame(raf);
-            screen.classList.add('hide');
-            setTimeout(() => screen.remove(), 600);
-          }, 800);
-        }
-      }
-    }
-
-    // Ground line
-    ctx.strokeStyle = 'rgba(255,255,255,0.1)';
-    ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(0, groundY + blockH + 2); ctx.lineTo(W, groundY + blockH + 2); ctx.stroke();
-
-    t++;
-    raf = requestAnimationFrame(draw);
-  }
-
-  draw();
-})();
-
-// ===== NAVBAR CRANE =====
-(function() {
-  const canvas = document.getElementById('navCrane');
+  const canvas = document.getElementById('heroCrane');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  const W = 48, H = 48;
+  const W = 480, H = 580;
   let t = 0;
 
   function draw() {
     ctx.clearRect(0, 0, W, H);
 
-    // Tower
+    // === TOWER ===
+    // Main tower column
     ctx.fillStyle = '#0D2C5E';
-    ctx.fillRect(34, 10, 5, 38);
+    ctx.fillRect(310, 80, 22, H - 80);
 
-    // Arm
+    // Tower stripes (safety)
+    for (let i = 0; i < 10; i++) {
+      ctx.fillStyle = i % 2 === 0 ? '#E8500A' : '#0D2C5E';
+      ctx.fillRect(310, 80 + i * 40, 22, 20);
+    }
+
+    // Tower base / cabin
+    ctx.fillStyle = '#1A3F7A';
+    ctx.fillRect(295, 200, 52, 40);
+    // Cabin window
+    ctx.fillStyle = 'rgba(100,160,255,0.3)';
+    ctx.fillRect(302, 207, 16, 14);
+    ctx.fillRect(324, 207, 16, 14);
+
+    // === HORIZONTAL ARM ===
     ctx.fillStyle = '#0D2C5E';
-    ctx.fillRect(8, 9, 31, 4);
-
-    // Counter weight
-    ctx.fillStyle = '#E8500A';
-    ctx.fillRect(36, 5, 10, 7);
-
-    // Stripe on tower
-    ctx.fillStyle = '#E8500A';
-    ctx.fillRect(34, 10, 5, 7);
-
-    // Swinging cable
-    const swing = Math.sin(t * 0.04) * 8;
-    const cableLen = 18 + Math.sin(t * 0.025) * 6;
-    const hookX = 18 + swing;
-    const hookY = 13 + cableLen;
-
-    ctx.strokeStyle = 'rgba(13,44,94,0.4)';
+    ctx.fillRect(60, 76, 272, 12);
+    // Arm truss lines
+    ctx.strokeStyle = 'rgba(255,255,255,0.15)';
     ctx.lineWidth = 1;
+    for (let i = 0; i < 6; i++) {
+      const x = 60 + i * 45;
+      ctx.beginPath();
+      ctx.moveTo(x, 76); ctx.lineTo(x + 22, 88);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x + 22, 76); ctx.lineTo(x, 88);
+      ctx.stroke();
+    }
+
+    // Support cables from tower top to arm tip
+    ctx.strokeStyle = 'rgba(13,44,94,0.25)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(321, 40); ctx.lineTo(68, 76); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(321, 40); ctx.lineTo(200, 76); ctx.stroke();
+
+    // Tower top cap
+    ctx.fillStyle = '#E8500A';
+    ctx.fillRect(308, 34, 28, 16);
+    // Warning light
+    const blink = Math.sin(t * 0.06) > 0;
+    ctx.fillStyle = blink ? '#ff4444' : '#aa2222';
     ctx.beginPath();
-    ctx.moveTo(18, 13);
-    ctx.lineTo(hookX, hookY);
+    ctx.arc(322, 34, 5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // === COUNTER ARM ===
+    ctx.fillStyle = '#1A3F7A';
+    ctx.fillRect(332, 76, 100, 10);
+    // Counter weight block
+    ctx.fillStyle = '#0D2C5E';
+    ctx.fillRect(406, 60, 32, 28);
+    ctx.fillStyle = '#E8500A';
+    ctx.fillRect(410, 64, 10, 10);
+    ctx.fillRect(424, 64, 10, 10);
+
+    // === TROLLEY (moves along arm) ===
+    const trolleyX = 130 + Math.sin(t * 0.008) * 80;
+    ctx.fillStyle = '#1A3F7A';
+    ctx.fillRect(trolleyX - 12, 72, 24, 10);
+    // Trolley wheels
+    ctx.fillStyle = '#0D2C5E';
+    [trolleyX - 8, trolleyX + 8].forEach(wx => {
+      ctx.beginPath(); ctx.arc(wx, 72, 4, 0, Math.PI * 2); ctx.fill();
+    });
+
+    // === CABLE ===
+    const swingAngle = Math.sin(t * 0.015) * 0.18;
+    const cableLength = 200 + Math.sin(t * 0.01) * 30;
+    const blockX = trolleyX + Math.sin(swingAngle) * cableLength;
+    const blockY = 82 + Math.cos(swingAngle) * cableLength;
+
+    ctx.strokeStyle = 'rgba(80,100,140,0.7)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(trolleyX, 82);
+    ctx.lineTo(blockX, blockY);
     ctx.stroke();
 
-    // Block
+    // Hook detail
+    ctx.strokeStyle = 'rgba(80,100,140,0.5)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(blockX, blockY - 4, 6, 0, Math.PI);
+    ctx.stroke();
+
+    // === BLOCK (load) ===
+    const bw = 52, bh = 38;
+    // Shadow
+    ctx.fillStyle = 'rgba(13,44,94,0.1)';
+    ctx.fillRect(blockX - bw/2 + 4, blockY + bh + 4, bw, 8);
+
+    // Block body
     ctx.fillStyle = '#E8500A';
-    ctx.fillRect(hookX - 7, hookY, 14, 10);
+    ctx.fillRect(blockX - bw/2, blockY, bw, bh);
+
+    // Block highlight (top face — 3D feel)
+    ctx.fillStyle = '#FF6B2B';
+    ctx.fillRect(blockX - bw/2, blockY, bw, 6);
+
+    // Block side shadow
+    ctx.fillStyle = 'rgba(0,0,0,0.2)';
+    ctx.fillRect(blockX + bw/2 - 6, blockY + 6, 6, bh - 6);
+
+    // Block texture lines
+    ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(blockX - bw/2 + 16, blockY); ctx.lineTo(blockX - bw/2 + 16, blockY + bh); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(blockX - bw/2 + 32, blockY); ctx.lineTo(blockX - bw/2 + 32, blockY + bh); ctx.stroke();
+
+    // Block logo mark
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.font = 'bold 11px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('LEMUS', blockX, blockY + bh - 10);
+    ctx.textAlign = 'left';
 
     t++;
     requestAnimationFrame(draw);
