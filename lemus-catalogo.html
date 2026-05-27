@@ -247,7 +247,7 @@ nav {
 
 .prod-img {
   aspect-ratio: 1;
-  background: var(--cream);
+  background: linear-gradient(135deg, #1A3F7A 0%, #0D2C5E 100%);
   display: flex; align-items: center; justify-content: center;
   font-size: 48px;
   border-bottom: 1px solid rgba(0,0,0,.05);
@@ -256,6 +256,17 @@ nav {
   position: relative;
 }
 
+.prod-img > span, .prod-img > div {
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,.25));
+  position: relative; z-index: 1;
+}
+.prod-img::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,.06) 1px, transparent 1px);
+  background-size: 18px 18px;
+  pointer-events: none;
+}
 .prod-img > span, .prod-img > div {
   filter: drop-shadow(0 4px 12px rgba(0,0,0,.25));
   position: relative; z-index: 1;
@@ -874,58 +885,58 @@ footer { background: var(--blue); padding: 48px 2rem 24px; color: rgba(255,255,2
 // ===== PRODUCT DATA =====
 const PRODUCTS = [
   // HERRAMIENTAS
-  { id:1, img:'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400&h=400&fit=crop&auto=format', name:'Taladro percutor 650W', sku:'331045', cat:'Herramientas', emoji:'🔧', price:89.00, badge:'top', stock:'in', isNew:false, isOffer:false },
-  { id:2, img:'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=400&h=400&fit=crop&auto=format', name:'Esmeriladora angular 4½" 750W', sku:'331102', cat:'Herramientas', emoji:'⚙️', price:64.50, badge:'offer', origPrice:79.90, stock:'in', isNew:false, isOffer:true },
-  { id:3, img:'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=400&h=400&fit=crop&auto=format', name:'Sierra circular 7¼" 1400W', sku:'331210', cat:'Herramientas', emoji:'🪚', price:112.00, badge:null, stock:'in', isNew:false, isOffer:false },
-  { id:4, img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&auto=format', name:'Nivel láser 3 líneas autonivelante', sku:'332001', cat:'Herramientas', emoji:'📐', price:145.00, badge:'new', stock:'in', isNew:true, isOffer:false },
-  { id:5, img:'https://images.unsplash.com/photo-1426927308491-6380b6a9936f?w=400&h=400&fit=crop&auto=format', name:'Llave de tubo 12"', sku:'330445', cat:'Herramientas', emoji:'🔧', price:12.50, badge:null, stock:'in', isNew:false, isOffer:false },
-  { id:6, img:'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=400&h=400&fit=crop&auto=format', name:'Cinta métrica 5m Stanley', sku:'330212', cat:'Herramientas', emoji:'📏', price:8.75, badge:'top', stock:'in', isNew:false, isOffer:false },
-  { id:7, img:'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400&h=400&fit=crop&auto=format', name:'Martillo carpintero 16 oz', sku:'330330', cat:'Herramientas', emoji:'🔨', price:14.25, badge:null, stock:'in', isNew:false, isOffer:false },
-  { id:8, img:'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&h=400&fit=crop&auto=format', name:'Juego destornilladores 8 piezas', sku:'330551', cat:'Herramientas', emoji:'🪛', price:22.00, badge:null, stock:'low', isNew:false, isOffer:false },
-  { id:9, img:'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400&h=400&fit=crop&auto=format', name:'Pistola de calor 1500W', sku:'332105', cat:'Herramientas', emoji:'🔫', price:38.90, badge:'new', stock:'in', isNew:true, isOffer:false },
+  { id:1, name:'Taladro percutor 650W', sku:'331045', cat:'Herramientas', emoji:'🔧', price:89.00, badge:'top', stock:'in', isNew:false, isOffer:false },
+  { id:2, name:'Esmeriladora angular 4½" 750W', sku:'331102', cat:'Herramientas', emoji:'⚙️', price:64.50, badge:'offer', origPrice:79.90, stock:'in', isNew:false, isOffer:true },
+  { id:3, name:'Sierra circular 7¼" 1400W', sku:'331210', cat:'Herramientas', emoji:'🪚', price:112.00, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:4, name:'Nivel láser 3 líneas autonivelante', sku:'332001', cat:'Herramientas', emoji:'📐', price:145.00, badge:'new', stock:'in', isNew:true, isOffer:false },
+  { id:5, name:'Llave de tubo 12"', sku:'330445', cat:'Herramientas', emoji:'🔧', price:12.50, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:6, name:'Cinta métrica 5m Stanley', sku:'330212', cat:'Herramientas', emoji:'📏', price:8.75, badge:'top', stock:'in', isNew:false, isOffer:false },
+  { id:7, name:'Martillo carpintero 16 oz', sku:'330330', cat:'Herramientas', emoji:'🔨', price:14.25, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:8, name:'Juego destornilladores 8 piezas', sku:'330551', cat:'Herramientas', emoji:'🪛', price:22.00, badge:null, stock:'low', isNew:false, isOffer:false },
+  { id:9, name:'Pistola de calor 1500W', sku:'332105', cat:'Herramientas', emoji:'🔫', price:38.90, badge:'new', stock:'in', isNew:true, isOffer:false },
 
   // PINTURA
-  { id:10, img:'https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=400&h=400&fit=crop&auto=format', name:'Pintura látex interior blanco galón', sku:'902001', cat:'Pintura', emoji:'🪣', price:28.00, badge:'top', stock:'in', isNew:false, isOffer:false },
-  { id:11, img:'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400&h=400&fit=crop&auto=format', name:'Impac impermeabilizante blanco 3.78L', sku:'902457', cat:'Pintura', emoji:'🎨', price:124.90, badge:null, stock:'in', isNew:false, isOffer:false },
-  { id:12, img:'https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=400&h=400&fit=crop&auto=format', name:'Pintura anticorrosiva gris galón', sku:'902230', cat:'Pintura', emoji:'🪣', price:32.50, badge:null, stock:'in', isNew:false, isOffer:false },
-  { id:13, img:'https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=400&h=400&fit=crop&auto=format', name:'Sellador acrílico base agua galón', sku:'902312', cat:'Pintura', emoji:'🪣', price:18.90, badge:null, stock:'in', isNew:false, isOffer:false },
-  { id:14, img:'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400&h=400&fit=crop&auto=format', name:'Rodillo de pintura 9" pelo corto', sku:'902605', cat:'Pintura', emoji:'🖌️', price:6.50, badge:'offer', origPrice:9.00, stock:'in', isNew:false, isOffer:true },
-  { id:15, img:'https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=400&h=400&fit=crop&auto=format', name:'Thinner corriente litro', sku:'902780', cat:'Pintura', emoji:'🧪', price:3.25, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:10, name:'Pintura látex interior blanco galón', sku:'902001', cat:'Pintura', emoji:'🪣', price:28.00, badge:'top', stock:'in', isNew:false, isOffer:false },
+  { id:11, name:'Impac impermeabilizante blanco 3.78L', sku:'902457', cat:'Pintura', emoji:'🎨', price:124.90, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:12, name:'Pintura anticorrosiva gris galón', sku:'902230', cat:'Pintura', emoji:'🪣', price:32.50, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:13, name:'Sellador acrílico base agua galón', sku:'902312', cat:'Pintura', emoji:'🪣', price:18.90, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:14, name:'Rodillo de pintura 9" pelo corto', sku:'902605', cat:'Pintura', emoji:'🖌️', price:6.50, badge:'offer', origPrice:9.00, stock:'in', isNew:false, isOffer:true },
+  { id:15, name:'Thinner corriente litro', sku:'902780', cat:'Pintura', emoji:'🧪', price:3.25, badge:null, stock:'in', isNew:false, isOffer:false },
 
   // ELÉCTRICO
-  { id:16, img:'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400&h=400&fit=crop&auto=format', name:'Cable eléctrico THHN cal.12 AWG', sku:'445120', cat:'Eléctrico', emoji:'⚡', price:18.50, badge:null, stock:'in', isNew:false, isOffer:false },
-  { id:17, img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&auto=format', name:'Tomacorriente doble 15A', sku:'445230', cat:'Eléctrico', emoji:'🔌', price:4.25, badge:null, stock:'in', isNew:false, isOffer:false },
-  { id:18, img:'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400&h=400&fit=crop&auto=format', name:'Breaker 1 polo 20A Square D', sku:'445445', cat:'Eléctrico', emoji:'🔋', price:14.75, badge:'top', stock:'in', isNew:false, isOffer:false },
-  { id:19, img:'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400&h=400&fit=crop&auto=format', name:'Tubo conduit PVC ½" x 3m', sku:'445550', cat:'Eléctrico', emoji:'🪜', price:2.10, badge:null, stock:'in', isNew:false, isOffer:false },
-  { id:20, img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&auto=format', name:'Panel eléctrico 12 circuitos', sku:'445890', cat:'Eléctrico', emoji:'🗄️', price:78.00, badge:'new', stock:'in', isNew:true, isOffer:false },
+  { id:16, name:'Cable eléctrico THHN cal.12 AWG', sku:'445120', cat:'Eléctrico', emoji:'⚡', price:18.50, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:17, name:'Tomacorriente doble 15A', sku:'445230', cat:'Eléctrico', emoji:'🔌', price:4.25, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:18, name:'Breaker 1 polo 20A Square D', sku:'445445', cat:'Eléctrico', emoji:'🔋', price:14.75, badge:'top', stock:'in', isNew:false, isOffer:false },
+  { id:19, name:'Tubo conduit PVC ½" x 3m', sku:'445550', cat:'Eléctrico', emoji:'🪜', price:2.10, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:20, name:'Panel eléctrico 12 circuitos', sku:'445890', cat:'Eléctrico', emoji:'🗄️', price:78.00, badge:'new', stock:'in', isNew:true, isOffer:false },
 
   // PLOMERÍA
-  { id:21, img:'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&h=400&fit=crop&auto=format', name:'Tubo PVC agua fría ½" x 6m', sku:'560100', cat:'Plomería', emoji:'🚿', price:4.80, badge:null, stock:'in', isNew:false, isOffer:false },
-  { id:22, img:'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&h=400&fit=crop&auto=format', name:'Llave de paso ½" latón', sku:'560245', cat:'Plomería', emoji:'🔧', price:7.50, badge:null, stock:'in', isNew:false, isOffer:false },
-  { id:23, img:'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&h=400&fit=crop&auto=format', name:'Lavamanos cerámico blanco', sku:'560412', cat:'Plomería', emoji:'🪣', price:45.00, badge:'offer', origPrice:65.00, stock:'in', isNew:false, isOffer:true },
-  { id:24, img:'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&h=400&fit=crop&auto=format', name:'Ducha eléctrica 110V 5500W', sku:'560590', cat:'Plomería', emoji:'🚿', price:38.50, badge:'top', stock:'in', isNew:false, isOffer:false },
-  { id:25, img:'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&h=400&fit=crop&auto=format', name:'Codo PVC 90° ½"', sku:'560090', cat:'Plomería', emoji:'🔩', price:0.45, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:21, name:'Tubo PVC agua fría ½" x 6m', sku:'560100', cat:'Plomería', emoji:'🚿', price:4.80, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:22, name:'Llave de paso ½" latón', sku:'560245', cat:'Plomería', emoji:'🔧', price:7.50, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:23, name:'Lavamanos cerámico blanco', sku:'560412', cat:'Plomería', emoji:'🪣', price:45.00, badge:'offer', origPrice:65.00, stock:'in', isNew:false, isOffer:true },
+  { id:24, name:'Ducha eléctrica 110V 5500W', sku:'560590', cat:'Plomería', emoji:'🚿', price:38.50, badge:'top', stock:'in', isNew:false, isOffer:false },
+  { id:25, name:'Codo PVC 90° ½"', sku:'560090', cat:'Plomería', emoji:'🔩', price:0.45, badge:null, stock:'in', isNew:false, isOffer:false },
 
   // CONSTRUCCIÓN
-  { id:26, img:'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=400&h=400&fit=crop&auto=format', name:'Cemento Cessa 42.5 kg', sku:'700100', cat:'Construcción', emoji:'🏗️', price:8.50, badge:'top', stock:'in', isNew:false, isOffer:false },
-  { id:27, img:'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=400&h=400&fit=crop&auto=format', name:'Bloque de concreto 20×40×20 cm', sku:'700210', cat:'Construcción', emoji:'🧱', price:0.45, badge:null, stock:'in', isNew:false, isOffer:false },
-  { id:28, img:'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&h=400&fit=crop&auto=format', name:'Varilla corrugada ⅜" x 6m', sku:'700345', cat:'Construcción', emoji:'📊', price:5.90, badge:null, stock:'in', isNew:false, isOffer:false },
-  { id:29, img:'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=400&h=400&fit=crop&auto=format', name:'Arena gruesa m³', sku:'700420', cat:'Construcción', emoji:'⛱️', price:70.00, badge:null, stock:'in', isNew:false, isOffer:false },
-  { id:30, img:'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&h=400&fit=crop&auto=format', name:'Malla electrosoldada 6×6 3/16"', sku:'700560', cat:'Construcción', emoji:'🕸️', price:32.00, badge:null, stock:'low', isNew:false, isOffer:false },
-  { id:31, img:'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=400&fit=crop&auto=format', name:'Cerámica piso 30×30 antideslizante', sku:'700677', cat:'Construcción', emoji:'🔲', price:22.00, badge:'new', stock:'in', isNew:true, isOffer:false },
-  { id:32, img:'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=400&h=400&fit=crop&auto=format', name:'Adhesivo cerámico bolsa 25 kg', sku:'700710', cat:'Construcción', emoji:'🪣', price:12.00, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:26, name:'Cemento Cessa 42.5 kg', sku:'700100', cat:'Construcción', emoji:'🏗️', price:8.50, badge:'top', stock:'in', isNew:false, isOffer:false },
+  { id:27, name:'Bloque de concreto 20×40×20 cm', sku:'700210', cat:'Construcción', emoji:'🧱', price:0.45, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:28, name:'Varilla corrugada ⅜" x 6m', sku:'700345', cat:'Construcción', emoji:'📊', price:5.90, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:29, name:'Arena gruesa m³', sku:'700420', cat:'Construcción', emoji:'⛱️', price:70.00, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:30, name:'Malla electrosoldada 6×6 3/16"', sku:'700560', cat:'Construcción', emoji:'🕸️', price:32.00, badge:null, stock:'low', isNew:false, isOffer:false },
+  { id:31, name:'Cerámica piso 30×30 antideslizante', sku:'700677', cat:'Construcción', emoji:'🔲', price:22.00, badge:'new', stock:'in', isNew:true, isOffer:false },
+  { id:32, name:'Adhesivo cerámico bolsa 25 kg', sku:'700710', cat:'Construcción', emoji:'🪣', price:12.00, badge:null, stock:'in', isNew:false, isOffer:false },
 
   // FIJACIONES
-  { id:33, img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&auto=format', name:'Tensor galvanizado 3/16"', sku:'790176', cat:'Fijaciones', emoji:'🔩', price:0.75, badge:null, stock:'in', isNew:false, isOffer:false },
-  { id:34, img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&auto=format', name:'Tornillo tirafondo 1" galvanizado ×100', sku:'790220', cat:'Fijaciones', emoji:'🔩', price:3.50, badge:null, stock:'in', isNew:false, isOffer:false },
-  { id:35, img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&auto=format', name:'Taco Fisher ¼" ×100 unidades', sku:'790310', cat:'Fijaciones', emoji:'📌', price:4.25, badge:null, stock:'in', isNew:false, isOffer:false },
-  { id:36, img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&auto=format', name:'Clavo acero 2" ×1 lb', sku:'790445', cat:'Fijaciones', emoji:'📍', price:1.10, badge:'offer', origPrice:1.50, stock:'in', isNew:false, isOffer:true },
-  { id:37, img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&auto=format', name:'Anclaje expansivo ⅜" ×50', sku:'790510', cat:'Fijaciones', emoji:'🔩', price:8.90, badge:null, stock:'low', isNew:false, isOffer:false },
+  { id:33, name:'Tensor galvanizado 3/16"', sku:'790176', cat:'Fijaciones', emoji:'🔩', price:0.75, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:34, name:'Tornillo tirafondo 1" galvanizado ×100', sku:'790220', cat:'Fijaciones', emoji:'🔩', price:3.50, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:35, name:'Taco Fisher ¼" ×100 unidades', sku:'790310', cat:'Fijaciones', emoji:'📌', price:4.25, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:36, name:'Clavo acero 2" ×1 lb', sku:'790445', cat:'Fijaciones', emoji:'📍', price:1.10, badge:'offer', origPrice:1.50, stock:'in', isNew:false, isOffer:true },
+  { id:37, name:'Anclaje expansivo ⅜" ×50', sku:'790510', cat:'Fijaciones', emoji:'🔩', price:8.90, badge:null, stock:'low', isNew:false, isOffer:false },
 
   // MADERA
-  { id:38, img:'https://images.unsplash.com/photo-1541123437800-1bb1317badc2?w=400&h=400&fit=crop&auto=format', name:'Tabla pino 1×6×8 pies', sku:'880100', cat:'Madera', emoji:'🪵', price:9.50, badge:null, stock:'in', isNew:false, isOffer:false },
-  { id:39, img:'https://images.unsplash.com/photo-1541123437800-1bb1317badc2?w=400&h=400&fit=crop&auto=format', name:'Tablero OSB 4×8 pies ½"', sku:'880240', cat:'Madera', emoji:'🪵', price:22.00, badge:null, stock:'in', isNew:false, isOffer:false },
-  { id:40, img:'https://images.unsplash.com/photo-1541123437800-1bb1317badc2?w=400&h=400&fit=crop&auto=format', name:'Regla 2×4×8 pies pino', sku:'880360', cat:'Madera', emoji:'🪵', price:7.20, badge:'new', stock:'in', isNew:true, isOffer:false },
+  { id:38, name:'Tabla pino 1×6×8 pies', sku:'880100', cat:'Madera', emoji:'🪵', price:9.50, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:39, name:'Tablero OSB 4×8 pies ½"', sku:'880240', cat:'Madera', emoji:'🪵', price:22.00, badge:null, stock:'in', isNew:false, isOffer:false },
+  { id:40, name:'Regla 2×4×8 pies pino', sku:'880360', cat:'Madera', emoji:'🪵', price:7.20, badge:'new', stock:'in', isNew:true, isOffer:false },
 ];
 
 // ===== STATE =====
@@ -1081,9 +1092,7 @@ function renderProducts(products) {
         <button class="prod-fav" onclick="toggleFav(this,event)" aria-label="Favorito">
           <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
         </button>
-        ${p.img
-          ? `<img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;display:block;">`
-          : p.emoji}
+        ${p.emoji}
       </div>
       <div class="prod-body">
         <div class="prod-cat-label">${p.cat}</div>
@@ -1177,12 +1186,7 @@ function openModal(id) {
   const p = PRODUCTS.find(x => x.id === id);
   if (!p) return;
   currentProductId = id;
-  const emojiEl = document.getElementById('modalEmoji');
-  if (p.img) {
-    emojiEl.innerHTML = `<img src="${p.img}" alt="${p.name}" style="width:200px;height:200px;object-fit:cover;border-radius:16px;box-shadow:0 12px 32px rgba(13,44,94,.18)">`;
-  } else {
-    emojiEl.textContent = p.emoji;
-  }
+  document.getElementById('modalEmoji').textContent = p.emoji;
   document.getElementById('modalCat').textContent = p.cat;
   document.getElementById('modalName').textContent = p.name;
   document.getElementById('modalSku').textContent = 'SKU: ' + p.sku;

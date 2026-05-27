@@ -366,13 +366,13 @@ footer{background:var(--blue);padding:48px 2rem 24px}
       <div class="gallery-badge">
         <span class="g-badge g-badge-top">Top ventas</span>
       </div>
-      <img id="mainEmoji" src="https://images.unsplash.com/photo-1504148455328-c376907d081c?w=600&h=600&fit=crop&auto=format" alt="Taladro percutor 650W" style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1">
+      <span class="gallery-emoji" id="mainEmoji">🔧</span>
     </div>
     <div class="gallery-thumbs">
-      <div class="g-thumb active" onclick="selectThumb(this,'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=200&h=200&fit=crop&auto=format')"><img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?w=200&h=200&fit=crop&auto=format" style="width:100%;height:100%;object-fit:cover;border-radius:8px"></div>
-      <div class="g-thumb" onclick="selectThumb(this,'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=200&h=200&fit=crop&auto=format')"><img src="https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=200&h=200&fit=crop&auto=format" style="width:100%;height:100%;object-fit:cover;border-radius:8px"></div>
-      <div class="g-thumb" onclick="selectThumb(this,'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=200&h=200&fit=crop&auto=format')"><img src="https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=200&h=200&fit=crop&auto=format" style="width:100%;height:100%;object-fit:cover;border-radius:8px"></div>
-      <div class="g-thumb" onclick="selectThumb(this,'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=200&h=200&fit=crop&auto=format')"><img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=200&h=200&fit=crop&auto=format" style="width:100%;height:100%;object-fit:cover;border-radius:8px"></div>
+      <div class="g-thumb active" onclick="selectThumb(this,'🔧')">🔧</div>
+      <div class="g-thumb" onclick="selectThumb(this,'⚙️')">⚙️</div>
+      <div class="g-thumb" onclick="selectThumb(this,'🔩')">🔩</div>
+      <div class="g-thumb" onclick="selectThumb(this,'📦')">📦</div>
     </div>
   </div>
 
@@ -614,11 +614,10 @@ footer{background:var(--blue);padding:48px 2rem 24px}
 })();
 
 // Gallery
-function selectThumb(el, src) {
+function selectThumb(el, emoji) {
   document.querySelectorAll('.g-thumb').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
-  const main = document.getElementById('mainEmoji');
-  main.src = src;
+  document.getElementById('mainEmoji').textContent = emoji;
 }
 
 // Qty
