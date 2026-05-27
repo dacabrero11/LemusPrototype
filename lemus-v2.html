@@ -396,8 +396,15 @@ nav {
 }
 .title-line {
   display: block;
-  transition: transform 0.12s cubic-bezier(0.2, 0, 0.1, 1);
   will-change: transform;
+  transition: transform 0.35s cubic-bezier(0.2, 0, 0.1, 1);
+  cursor: default;
+}
+.title-line:hover {
+  transform: translateY(-14px);
+}
+.word-lift {
+  display: inline;
 }
 
 .hero-sub {
@@ -1756,54 +1763,26 @@ document.addEventListener('click', e => {
   } catch(e) {}
 })();
 
-// ===== HERO TITLE MOUSE PARALLAX =====
+// ===== HERO TITLE WORD LIFT =====
 (function() {
-  const hero = document.querySelector('.hero');
-  const lines = [
-    { el: document.getElementById('titleLine1'), depth: 0.04 },
-    { el: document.getElementById('titleLine2'), depth: 0.07 },
-    { el: document.getElementById('titleLine3'), depth: 0.10 },
-  ];
-  const sub  = document.querySelector('.hero-sub');
-  const cta  = document.querySelector('.hero-cta-row');
+  const title = document.getElementById('heroTitle');
+  if (!title) return;
 
-  if (!hero || !lines[0].el) return;
-
-  let targetX = 0, targetY = 0;
-  let currentX = 0, currentY = 0;
-  let raf = null;
-
-  hero.addEventListener('mousemove', e => {
-    const rect = hero.getBoundingClientRect();
-    // Center-relative position (-1 to 1)
-    targetX = ((e.clientX - rect.left) / rect.width  - 0.5) * 2;
-    targetY = ((e.clientY - rect.top)  / rect.height - 0.5) * 2;
-    if (!raf) raf = requestAnimationFrame(animate);
-  });
-
-  hero.addEventListener('mouseleave', () => {
-    targetX = 0; targetY = 0;
-    if (!raf) raf = requestAnimationFrame(animate);
-  });
-
-  function animate() {
-    // Smooth lerp toward target
-    currentX += (targetX - currentX) * 0.06;
-    currentY += (targetY - currentY) * 0.06;
-
-    lines.forEach(({ el, depth }) => {
-      const x = currentX * depth * 60;
-      const y = currentY * depth * 30;
-      el.style.transform = `translate(${x}px, ${y}px)`;
+  // Split each line into individual word spans
+  title.querySelectorAll('.title-line').forEach(line => {
+    const text = line.textContent.trim();
+    line.textContent = '';
+    text.split(' ').forEach((word, i) => {
+      const span = document.createElement('span');
+      span.className = 'word-lift';
+      span.textContent = word;
+      span.style.transitionDelay = `${i * 0.03}s`;
+      line.appendChild(span);
+      if (i < text.split(' ').length - 1) {
+        line.appendChild(document.createTextNode(' '));
+      }
     });
-
-    // Sub and CTA move slightly too
-    if (sub) sub.style.transform = `translate(${currentX * 14}px, ${currentY * 8}px)`;
-    if (cta) cta.style.transform = `translate(${currentX * 10}px, ${currentY * 5}px)`;
-
-    const stillMoving = Math.abs(targetX - currentX) > 0.001 || Math.abs(targetY - currentY) > 0.001;
-    raf = stillMoving ? requestAnimationFrame(animate) : null;
-  }
+  });
 })();
 
 // ===== SCROLL REVEAL =====
