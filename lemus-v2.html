@@ -1563,12 +1563,9 @@ async function sendMsg() {
 
     if (data.error) {
       document.getElementById(typingId)?.remove();
-      let errMsg = '⚠️ API key inválida. Recarga la página e intenta de nuevo.';
-      if (data.error.type === 'authentication_error') {
-        sessionStorage.removeItem('lemus_api_key');
-        errMsg = '⚠️ API key inválida. Recarga la página e ingresa tu key correctamente.';
-      }
-      msgs.innerHTML += `<div class="msg bot"><div class="bubble" style="color:#dc2626">${errMsg}</div></div>`;
+      sessionStorage.removeItem('lemus_api_key');
+      const errDetail = `${data.error.type}: ${data.error.message}`;
+      msgs.innerHTML += `<div class="msg bot"><div class="bubble" style="color:#dc2626">⚠️ ${errDetail}</div></div>`;
       msgs.scrollTop = msgs.scrollHeight;
       inp.disabled = false;
       return;
