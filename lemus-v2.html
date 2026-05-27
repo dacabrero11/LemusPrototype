@@ -394,6 +394,11 @@ nav {
   color: transparent;
   display: block;
 }
+.title-line {
+  display: block;
+  transition: transform 0.12s cubic-bezier(0.2, 0, 0.1, 1);
+  will-change: transform;
+}
 
 .hero-sub {
   font-size: 15px;
@@ -1350,10 +1355,10 @@ footer {
         </div>
       </div>
 
-      <h1 class="hero-title">
-        Todo para
-        <span class="line-orange">construir</span>
-        <span class="line-stroke">tu mundo.</span>
+      <h1 class="hero-title" id="heroTitle">
+        <span class="title-line" id="titleLine1">Todo para</span>
+        <span class="line-orange title-line" id="titleLine2">construir</span>
+        <span class="line-stroke title-line" id="titleLine3">tu mundo.</span>
       </h1>
 
       <p class="hero-sub">
@@ -1749,6 +1754,56 @@ document.addEventListener('click', e => {
     const el = document.getElementById('cartCount');
     if (el && total > 0) el.textContent = total;
   } catch(e) {}
+})();
+
+// ===== HERO TITLE MOUSE PARALLAX =====
+(function() {
+  const hero = document.querySelector('.hero');
+  const lines = [
+    { el: document.getElementById('titleLine1'), depth: 0.018 },
+    { el: document.getElementById('titleLine2'), depth: 0.028 },
+    { el: document.getElementById('titleLine3'), depth: 0.038 },
+  ];
+  const sub  = document.querySelector('.hero-sub');
+  const cta  = document.querySelector('.hero-cta-row');
+
+  if (!hero || !lines[0].el) return;
+
+  let targetX = 0, targetY = 0;
+  let currentX = 0, currentY = 0;
+  let raf = null;
+
+  hero.addEventListener('mousemove', e => {
+    const rect = hero.getBoundingClientRect();
+    // Center-relative position (-1 to 1)
+    targetX = ((e.clientX - rect.left) / rect.width  - 0.5) * 2;
+    targetY = ((e.clientY - rect.top)  / rect.height - 0.5) * 2;
+    if (!raf) raf = requestAnimationFrame(animate);
+  });
+
+  hero.addEventListener('mouseleave', () => {
+    targetX = 0; targetY = 0;
+    if (!raf) raf = requestAnimationFrame(animate);
+  });
+
+  function animate() {
+    // Smooth lerp toward target
+    currentX += (targetX - currentX) * 0.08;
+    currentY += (targetY - currentY) * 0.08;
+
+    lines.forEach(({ el, depth }) => {
+      const x = currentX * depth * 60;
+      const y = currentY * depth * 30;
+      el.style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+    // Sub and CTA move slightly too
+    if (sub) sub.style.transform = `translate(${currentX * 6}px, ${currentY * 4}px)`;
+    if (cta) cta.style.transform = `translate(${currentX * 4}px, ${currentY * 2}px)`;
+
+    const stillMoving = Math.abs(targetX - currentX) > 0.001 || Math.abs(targetY - currentY) > 0.001;
+    raf = stillMoving ? requestAnimationFrame(animate) : null;
+  }
 })();
 
 // ===== SCROLL REVEAL =====
