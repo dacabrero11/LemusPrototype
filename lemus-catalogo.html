@@ -1140,6 +1140,17 @@ let currentFilteredList = [];
 let modalFavs = new Set();
 
 // ===== INIT =====
+// Clean up old demo cart items (id 1,2,3 with specific prices)
+(function() {
+  try {
+    const cart = JSON.parse(localStorage.getItem('lemus_cart') || '[]');
+    const demoIds = [1, 2, 3];
+    const demoPrices = [89.00, 28.00, 0.75];
+    const isDemo = cart.length === 3 &&
+      cart.every((item, i) => item.id === demoIds[i] && item.price === demoPrices[i]);
+    if (isDemo) localStorage.removeItem('lemus_cart');
+  } catch(e) {}
+})();
 applyFilters();
 updateCartBadge();
 
